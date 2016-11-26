@@ -4,7 +4,7 @@
   "description": "Google CCTZ binding for Node.JS",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "xo && ava"
   },
   "author": {
     "name": "Vsevolod Strukchinsky",
