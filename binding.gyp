@@ -13,7 +13,7 @@
         "cctz/src/time_zone_posix.cc",
         "cctz.cc"
       ],
-      "cflags" : [ "-std=c++11", "-stdlib=libc++" ],
+      "cflags" : [ "-std=c++11" ],
       "include_dirs" : [
         "cctz",
         "cctz/include",
