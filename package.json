@@ -1,0 +1,25 @@
+{
+  "name": "cctz",
+  "version": "2.0.0",
+  "description": "Google CCTZ binding for Node.JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": {
+    "name": "Vsevolod Strukchinsky",
+    "email": "floatdrop@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.4.0"
+  },
+  "gypfile": true,
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "benchmark": "^2.1.2",
+    "bindings": "^1.2.1",
+    "moment-timezone": "^0.5.9",
+    "xo": "^0.17.1"
+  }
+}
