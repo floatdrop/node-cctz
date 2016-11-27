@@ -1,6 +1,7 @@
 const Benchmark = require('benchmark');
 const moment = require('moment-timezone');
-const cctz = require('./build/Release/cctz.node');
+const bindings = require('bindings');
+const cctz = bindings('cctz.node');
 
 const suite = new Benchmark.Suite();
 
