@@ -11,13 +11,13 @@
         "cctz/src/time_zone_libc.cc",
         "cctz/src/time_zone_lookup.cc",
         "cctz/src/time_zone_posix.cc",
-        "timepoint.cc",
-        "timezone.cc",
-        "node_cctz.cc"
+        "src/timepoint.cc",
+        "src/timezone.cc",
+        "src/node_cctz.cc"
       ],
       "cflags" : [ "-std=c++11" ],
       "include_dirs" : [
-        "cctz",
+        "src",
         "cctz/include",
         "<!(node -e \"require('nan')\")"
       ],
