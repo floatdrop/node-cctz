@@ -18,6 +18,7 @@ NAN_METHOD(load_time_zone) {
 		return;
 	}
 
+	// TODO: Cache TimeZone objects (+100,000 op/s)
 	info.GetReturnValue().Set(TimeZone::NewInstance(info[0]));
 }
 
@@ -59,6 +60,26 @@ NAN_METHOD(parse) {
 }
 
 NAN_METHOD(format) {
+	if (info.Length() < 3) {
+		Nan::ThrowTypeError("Expected 3 arguments: format, timepoint, timezone");
+		return;
+	}
+
+	if (!info[0]->IsString()) {
+		Nan::ThrowTypeError("format must be a string");
+		return;
+	}
+
+	if (!info[1]->IsObject()) {
+		Nan::ThrowTypeError("timepoint must be an Object");
+		return;
+	}
+
+	if (!info[2]->IsObject()) {
+		Nan::ThrowTypeError("timezone must be an Object");
+		return;
+	}
+
 	std::string format = *Nan::Utf8String(info[0]);
 	TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(info[1]->ToObject());
 	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());

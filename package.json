@@ -4,6 +4,7 @@
   "description": "Google CCTZ binding for Node.JS",
   "main": "index.js",
   "scripts": {
+    "bench": "node bench",
     "test": "xo && ava"
   },
   "author": {
