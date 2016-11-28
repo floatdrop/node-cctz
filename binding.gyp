@@ -15,7 +15,13 @@
         "timezone.cc",
         "node_cctz.cc"
       ],
-      "cflags" : [ "-std=c++11" ],
+      "cflags" : [
+        "-std=c++11",
+        "-O3",
+        "-msse2",
+        "-ffast-math",
+        "-fexceptions"
+      ],
       "include_dirs" : [
         "cctz",
         "cctz/include",
@@ -32,6 +38,12 @@
               ],
               "OTHER_LDFLAGS": [
                 "-stdlib=libc++"
+              ],
+              "OTHER_CFLAGS": [
+                "-O3",
+                "-msse2",
+                "-ffast-math",
+                "-fexceptions"
               ],
               "MACOSX_DEPLOYMENT_TARGET":"10.7"
             }
