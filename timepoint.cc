@@ -7,14 +7,14 @@ TimePoint::~TimePoint() {};
 Nan::Persistent<v8::Function> TimePoint::constructor;
 
 void TimePoint::Init() {
-  Nan::HandleScope scope;
+	Nan::HandleScope scope;
 
-  // Prepare constructor template
-  v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
-  tpl->SetClassName(Nan::New("TimePoint").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
+	// Prepare constructor template
+	v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+	tpl->SetClassName(Nan::New("TimePoint").ToLocalChecked());
+	tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
-  constructor.Reset(tpl->GetFunction());
+	constructor.Reset(tpl->GetFunction());
 }
 
 void TimePoint::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
