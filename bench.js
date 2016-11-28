@@ -1,23 +1,23 @@
 const Benchmark = require('benchmark');
 const moment = require('moment-timezone');
-const bindings = require('bindings');
-const cctz = bindings('cctz.node');
+const cctz = require('./');
 
 const suite = new Benchmark.Suite();
 
 suite
 	.add('moment-timezone', () => {
 		const date = moment.tz('2015-09-22 09:35:12', 'America/New_York');
-		return date.add(1, 'h').format('YYYY-MM-DD hh-mm-ss');
+		return date.format('YYYY-MM-DD hh-mm-ss');
 	})
 	.add('cctz', () => {
-		const time = cctz.parse('2015-09-22 09:35:12', 'America/New_York');
-		return time.format('%Y-%M-%D %h-%m-%s');
+		const tz = cctz.load_time_zone('America/New_York');
+		const time = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
+		return cctz.format('%Y-%m-%d %H:%M:%S', time, tz);
 	})
 	.on('cycle', event => {
 		console.log(String(event.target));
 	})
-	.on('complete', () => {
+	.on('complete', function() {
 		console.log('Fastest is ' + this.filter('fastest').map('name'));
 	})
 	.run({
