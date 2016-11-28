@@ -32,12 +32,9 @@ void TimeZone::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 v8::Local<v8::Object> TimeZone::NewInstance(v8::Local<v8::Value> arg) {
-	Nan::EscapableHandleScope scope;
-
 	const unsigned argc = 1;
 	v8::Local<v8::Value> argv[argc] = { arg };
 	v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-	v8::Local<v8::Object> instance = cons->NewInstance(argc, argv);
 
-	return scope.Escape(instance);
+	return Nan::NewInstance(cons, argc, argv).ToLocalChecked();
 }

@@ -24,12 +24,6 @@ void TimePoint::New(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 
 v8::Local<v8::Object> TimePoint::NewInstance() {
-	Nan::EscapableHandleScope scope;
-
-	const unsigned argc = 0;
-	v8::Local<v8::Value> argv[argc] = {};
-	v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
-	v8::Local<v8::Object> instance = cons->NewInstance(argc, argv);
-
-	return scope.Escape(instance);
+	v8::Local<v8::Function> cons = Nan::New(constructor);
+	return Nan::NewInstance(cons).ToLocalChecked();
 }
