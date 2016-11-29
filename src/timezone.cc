@@ -112,6 +112,11 @@ NAN_METHOD(TimeZone::New) {
 	info.GetReturnValue().Set(info.This());
 }
 
+v8::Local<v8::Object> TimeZone::NewInstance() {
+	v8::Local<v8::Function> cons = Nan::New(constructor);
+	return Nan::NewInstance(cons).ToLocalChecked();
+}
+
 v8::Local<v8::Object> TimeZone::NewInstance(v8::Local<v8::Value> arg) {
 	const unsigned argc = 1;
 	v8::Local<v8::Value> argv[argc] = { arg };

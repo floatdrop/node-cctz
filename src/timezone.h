@@ -8,6 +8,7 @@
 class TimeZone : public Nan::ObjectWrap {
 public:
 	static void Init(v8::Local<v8::Object> target);
+	static v8::Local<v8::Object> NewInstance();
 	static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
 	static Nan::Persistent<v8::FunctionTemplate> prototype;
 
