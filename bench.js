@@ -6,7 +6,7 @@ const suite = new Benchmark.Suite();
 const tz = cctz.load_time_zone('America/New_York');
 
 suite
-	.add('Format Now          (Date)', () => {
+	.add('Format Now      (baseline)', () => {
 		const date = new Date();
 		return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
 	})
@@ -24,7 +24,7 @@ suite
 		const date = moment.tz('America/New_York');
 		return date.year() + '-' + date.month() + '-' + date.day();
 	})
-	.add('Parse-Format        (Date)', () => {
+	.add('Parse-Format    (baseline)', () => {
 		const date = new Date('2015-09-22 09:35:12 GMT+0300');
 		return date.toString();
 	})
@@ -36,7 +36,7 @@ suite
 		const date = moment.tz('2015-09-22 09:35:12', 'America/New_York');
 		return date.format('YYYY-MM-DD hh-mm-ss');
 	})
-	.add('Increment hour      (Date)', () => {
+	.add('Increment hour  (baseline)', () => {
 		const date = new Date('2015-09-22 09:35:12 GMT+0300');
 		for (let i = 0; i < 1000; i++) {
 			date.setTime(date.getTime() + (i * 60 * 60 * 1000));

@@ -110,15 +110,17 @@ Name of TimeZone.
 ## Benchmarks
 
 ```
-Format Now          (Date) x 3,159,444 ops/sec ±1.02% (84 runs sampled)
+Format Now      (baseline) x 3,159,444 ops/sec ±1.02% (84 runs sampled)
 Format Now   (cctz-format) x 682,804 ops/sec ±10.42% (63 runs sampled)
 Format Now   (cctz-concat) x 431,137 ops/sec ±6.08% (63 runs sampled)
 Format Now (moment-format) x 77,865 ops/sec ±6.04% (75 runs sampled)
 Format Now (moment-concat) x 113,597 ops/sec ±5.99% (77 runs sampled)
-Parse-Format        (Date) x 562,212 ops/sec ±3.60% (80 runs sampled)
+
+Parse-Format    (baseline) x 562,212 ops/sec ±3.60% (80 runs sampled)
 Parse-Format        (cctz) x 497,784 ops/sec ±5.03% (79 runs sampled)
 Parse-Format      (moment) x 17,275 ops/sec ±9.55% (73 runs sampled)
-Increment hour      (Date) x 17,906 ops/sec ±3.99% (80 runs sampled)
+
+Increment hour  (baseline) x 17,906 ops/sec ±3.99% (80 runs sampled)
 Increment hour      (cctz) x 5,504 ops/sec ±5.30% (81 runs sampled)
 Increment hour    (moment) x 604 ops/sec ±1.97% (83 runs sampled)
 ```
