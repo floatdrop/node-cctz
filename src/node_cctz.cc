@@ -39,15 +39,16 @@ NAN_METHOD(parse) {
 		return;
 	}
 
-	if (!info[2]->IsObject()) {
-		Nan::ThrowTypeError("timezone must be an Object");
+	auto arg2 = info[2]->ToObject();
+	if (!Nan::New(TimeZone::prototype)->HasInstance(arg2)) {
+		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
 		return;
 	}
 
 	std::string format = *Nan::Utf8String(info[0]);
 	std::string input = *Nan::Utf8String(info[1]);
 
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
+	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
 	v8::Local<v8::Object> result = TimePoint::NewInstance();
 	TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(result);
 
@@ -71,19 +72,21 @@ NAN_METHOD(format) {
 		return;
 	}
 
-	if (!info[1]->IsObject()) {
-		Nan::ThrowTypeError("timepoint must be an Object");
+	auto arg1 = info[1]->ToObject();
+	if (!Nan::New(TimePoint::prototype)->HasInstance(arg1)) {
+		Nan::ThrowTypeError("timepoint must be an instance of TimePoint");
 		return;
 	}
 
-	if (!info[2]->IsObject()) {
-		Nan::ThrowTypeError("timezone must be an Object");
+	auto arg2 = info[2]->ToObject();
+	if (!Nan::New(TimeZone::prototype)->HasInstance(arg2)) {
+		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
 		return;
 	}
 
 	std::string format = *Nan::Utf8String(info[0]);
-	TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(info[1]->ToObject());
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
+	TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(arg1);
+	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
 	std::string str = cctz::format(format, tp->value, tz->value);
 
 	info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
