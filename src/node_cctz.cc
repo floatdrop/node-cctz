@@ -20,7 +20,7 @@ NAN_METHOD(local_time_zone) {
 	v8::Local<v8::Object> result = TimeZone::NewInstance();
 	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(result);
 	tz->value = cctz::local_time_zone();
-	tz->name = "Local";
+	tz->name = "localtime";
 	info.GetReturnValue().Set(result);
 }
 
