@@ -100,6 +100,10 @@ NAN_GETTER(TimeZone::GetName) {
 }
 
 NAN_METHOD(TimeZone::New) {
+	if (!info.IsConstructCall()) {
+		return Nan::ThrowTypeError("TimeZone constructor cannot be invoked without 'new'");
+	}
+
 	TimeZone* obj = new TimeZone();
 	obj->name = *Nan::Utf8String(info[0]);
 

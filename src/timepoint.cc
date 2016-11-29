@@ -33,6 +33,10 @@ NAN_GETTER(TimePoint::GetUnixTimestamp) {
 }
 
 NAN_METHOD(TimePoint::New) {
+	if (!info.IsConstructCall()) {
+		return Nan::ThrowTypeError("TimePoint constructor cannot be invoked without 'new'");
+	}
+
 	TimePoint* obj = new TimePoint();
 
 	if (info.Length() > 0 && info[0]->IsNumber()) {

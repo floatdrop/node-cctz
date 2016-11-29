@@ -131,6 +131,10 @@ NAN_GETTER(CivilSecond::GetYearday) {
 }
 
 NAN_METHOD(CivilSecond::New) {
+	if (!info.IsConstructCall()) {
+		return Nan::ThrowTypeError("CivilSecond constructor cannot be invoked without 'new'");
+	}
+
 	CivilSecond* obj = new CivilSecond();
 	obj->Wrap(info.This());
 	info.GetReturnValue().Set(info.This());
