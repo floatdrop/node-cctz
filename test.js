@@ -52,6 +52,16 @@ test('convert shortcut is working', t => {
 	t.is(tz2.unix, Math.floor(now / 1000) * 1000);
 });
 
+test('example1.cc works', t => {
+	const lax = cctz.load_time_zone('America/Los_Angeles');
+	const tp = cctz.convert(new cctz.CivilSecond(2015, 9, 22, 9), lax);
+
+	const nyc = cctz.load_time_zone('America/New_York');
+	const str = cctz.format('Talk starts at %T %z (%Z)', tp, nyc);
+
+	t.is(str, 'Talk starts at 12:00:00 -0400 (EDT)');
+});
+
 // test('has time_zone.h methods', t => {
 // 	t.is(typeof cctz.time_zone, 'function');
 // 	t.is(typeof cctz.utc_time_zone, 'function');

@@ -9,31 +9,103 @@ Google [CCTZ](https://github.com/google/cctz) binding for Node.JS.
 ```js
 const cctz = require('cctz');
 
-const tz = cctz.load_time_zone('Asia/Yekaterinburg');
-const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
-const time = tz.lookup(tp);
+const lax = cctz.load_time_zone('America/Los_Angeles');
+const tp = cctz.convert(new cctz.CivilSecond(2015, 9, 22, 9), lax);
 
-console.log(time);
-/*
-{ offset: 18000,
-  is_dst: false,
-  abbr: '+05',
-  cs:
-   CivilSecond {
-     yearday: 265,
-     weekday: 6,
-     second: 12,
-     minute: 35,
-     hour: 9,
-     day: 22,
-     month: 9,
-     year: 2015 } }
-*/
+const nyc = cctz.load_time_zone('America/New_York');
+console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
+
+// =>
 ```
 
 ## API
 
-To be discussed.
+#### cctz.load_time_zone(name)
+
+Returns TimeZone object for time zone with `name` from `/usr/share/zoneinfo`.
+
+#### cctz.utc_time_zone()
+
+Returns `UTC` TimeZone object.
+
+#### cctz.local_time_zone()
+
+Returns `localtime` TimeZone object.
+
+> __Pro-tip__: Cache TimeZone object.
+
+#### cctz.parse(format, input, timezone)
+
+Parses `input` string according to `format` string (assuming `input` in `timezone`).
+
+Returns TimePoint object.
+
+#### cctz.format(format, timepoint, timezone)
+
+Formats TimePoint `timepoint` object according to `format` in `timezone`.
+
+Returns string.
+
+#### cctz.convert(timepoint, timezone)
+
+Returns CivilSecond object from `timepoint` in `timezone`.
+
+#### cctz.convert(civilsecond, timezone)
+
+Returns TimePoint object from `civilsecond` in `timezone`.
+
+
+### TimePoint
+
+Holder for [`std::chrono::time_point`](http://en.cppreference.com/w/cpp/chrono/time_point).
+
+#### TimePoint(unix)
+
+Creates TimePoint from Unix timestamp (in milliseconds).
+
+#### TimePoint.unix
+
+Returns Unix timestamp in milliseconds.
+
+
+### CivilSecond
+
+Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/civil_time.h#L22) with getters and setters for properties.
+
+#### CivilSecond(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0)
+
+Creates CivilSecond object.
+
+##### CivilSecond.year
+##### CivilSecond.month
+##### CivilSecond.day
+##### CivilSecond.hour
+##### CivilSecond.minute
+##### CivilSecond.second
+##### CivilSecond.yearday (only getter)
+##### CivilSecond.weekday (only getter)
+
+
+### TimeZone
+
+Holder for [`cctz::time_zone`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L37).
+
+#### TimeZone(name)
+
+Same as `load_time_zone`.
+
+##### TimeZone.lookup(timepoint)
+
+Returns [`cctz::absolute_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L60) object.
+
+##### TimeZone.lookup(civilsecond)
+
+Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L85) object.
+
+##### TimeZone.name
+
+Name of TimeZone.
+
 
 ## Benchmarks
 

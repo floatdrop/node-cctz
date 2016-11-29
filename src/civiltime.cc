@@ -135,7 +135,16 @@ NAN_METHOD(CivilSecond::New) {
 		return Nan::ThrowTypeError("CivilSecond constructor cannot be invoked without 'new'");
 	}
 
+	auto year   = (info[0]->IsUndefined() || !info[0]->IsNumber()) ? 0 : info[0]->NumberValue();
+	auto month  = (info[1]->IsUndefined() || !info[1]->IsNumber()) ? 0 : info[1]->NumberValue();
+	auto day    = (info[2]->IsUndefined() || !info[2]->IsNumber()) ? 0 : info[2]->NumberValue();
+	auto hour   = (info[3]->IsUndefined() || !info[3]->IsNumber()) ? 0 : info[3]->NumberValue();
+	auto minute = (info[4]->IsUndefined() || !info[4]->IsNumber()) ? 0 : info[4]->NumberValue();
+	auto second = (info[5]->IsUndefined() || !info[5]->IsNumber()) ? 0 : info[5]->NumberValue();
+
 	CivilSecond* obj = new CivilSecond();
+	obj->value = cctz::civil_second(year, month, day, hour, minute, second);
+
 	obj->Wrap(info.This());
 	info.GetReturnValue().Set(info.This());
 }
