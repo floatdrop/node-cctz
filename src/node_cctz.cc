@@ -109,7 +109,50 @@ NAN_METHOD(format) {
 }
 
 NAN_METHOD(convert) {
+	if (info.Length() < 2) {
+		Nan::ThrowTypeError("Expected 2 arguments: timepoint/civilseconds, timezone");
+		return;
+	}
 
+	auto arg1 = info[1]->ToObject();
+	if (!Nan::New(TimeZone::prototype)->HasInstance(arg1)) {
+		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
+		return;
+	}
+
+	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg1);
+
+	auto arg0 = info[0]->ToObject();
+	if (Nan::New(TimePoint::prototype)->HasInstance(arg0)) {
+		TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(arg0);
+		auto al = tz->value.lookup(tp->value);
+
+		v8::Local<v8::Object> csObj = CivilSecond::NewInstance();
+		CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(csObj);
+		cs->value = al.cs;
+
+		info.GetReturnValue().Set(csObj);
+		return;
+	}
+
+	if (Nan::New(CivilSecond::prototype)->HasInstance(arg0)) {
+		CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(arg0);
+		const cctz::time_zone::civil_lookup cl = tz->value.lookup(cs->value);
+
+		v8::Local<v8::Object> tpObj = TimePoint::NewInstance();
+		TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(tpObj);
+
+		if (cl.kind == cctz::time_zone::civil_lookup::SKIPPED) {
+			tp->value = cl.trans;
+		} else {
+			tp->value = cl.pre;
+		}
+
+		info.GetReturnValue().Set(tpObj);
+		return;
+	}
+
+	Nan::ThrowTypeError("first argument should be instance of TimePoint or CivilSecond");
 }
 
 NAN_MODULE_INIT(Init) {
@@ -122,6 +165,7 @@ NAN_MODULE_INIT(Init) {
 	NAN_EXPORT(target, local_time_zone);
 	NAN_EXPORT(target, parse);
 	NAN_EXPORT(target, format);
+	NAN_EXPORT(target, convert);
 }
 
 NODE_MODULE(node_cctz, Init)

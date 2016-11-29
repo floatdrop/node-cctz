@@ -41,6 +41,17 @@ test('TimePoint has unix timestamp constructor', t => {
 	t.is(tp.unix, unix);
 });
 
+test('convert shortcut is working', t => {
+	const now = new Date().getTime();
+	const tz = cctz.load_time_zone('America/New_York');
+	const cs = cctz.convert(new cctz.TimePoint(now), tz);
+	t.is(cs.year, new Date(now).getFullYear());
+
+	const tz2 = cctz.convert(cs, tz);
+	// Since CivilSeconds does not contains milliseconds
+	t.is(tz2.unix, Math.round(now / 1000) * 1000);
+});
+
 // test('has time_zone.h methods', t => {
 // 	t.is(typeof cctz.time_zone, 'function');
 // 	t.is(typeof cctz.utc_time_zone, 'function');
