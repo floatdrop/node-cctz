@@ -6,8 +6,10 @@
 
 class TimePoint : public Nan::ObjectWrap {
 public:
-	static void Init();
+	static void Init(v8::Local<v8::Object> target);
 	static v8::Local<v8::Object> NewInstance();
+	static Nan::Persistent<v8::FunctionTemplate> prototype;
+
 	std::chrono::system_clock::time_point value;
 
 private:
@@ -15,7 +17,9 @@ private:
 	~TimePoint();
 
 	static Nan::Persistent<v8::Function> constructor;
-	static void New(const Nan::FunctionCallbackInfo<v8::Value>& info);
+	static NAN_METHOD(New);
+
+	static NAN_GETTER(GetUnixTimestamp);
 };
 
 #endif

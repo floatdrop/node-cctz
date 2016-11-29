@@ -8,6 +8,32 @@ test('simple parsing -> format cycle works', t => {
 	t.is(str, '2015-09-22 09:35:12');
 });
 
+test('CivilTime has getters', t => {
+	const tz = cctz.load_time_zone('America/New_York');
+	const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
+	const ct = tz.lookup(tp);
+	t.is(ct.cs.year, 2015);
+	t.is(ct.cs.month, 9);
+	t.is(ct.cs.day, 22);
+	t.is(ct.cs.hour, 9);
+	t.is(ct.cs.minute, 35);
+	t.is(ct.cs.second, 12);
+	t.is(ct.cs.weekday, 6);
+	t.is(ct.cs.yearday, 265);
+
+	t.is(ct.abbr, 'EDT');
+	t.is(ct.is_dst, true);
+	t.is(ct.offset, -14400);
+});
+
+test('CivilTime has setters', t => {
+	const tz = cctz.load_time_zone('America/New_York');
+	const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
+	const ct = tz.lookup(tp);
+
+	ct.cs.year += 1;
+	t.is(ct.cs.year, 2016);
+});
 // test('has time_zone.h methods', t => {
 // 	t.is(typeof cctz.time_zone, 'function');
 // 	t.is(typeof cctz.utc_time_zone, 'function');
@@ -17,25 +43,3 @@ test('simple parsing -> format cycle works', t => {
 // 	t.is(typeof cctz.parse, 'function');
 // });
 
-// test('has civil_time.h methods', t => {
-// 	t.is(typeof cctz.civil_second, 'function');
-// 	t.is(typeof cctz.civil_minute, 'function');
-// 	t.is(typeof cctz.civil_hour, 'function');
-// 	t.is(typeof cctz.civil_day, 'function');
-// 	t.is(typeof cctz.civil_month, 'function');
-// 	t.is(typeof cctz.civil_year, 'function');
-// 	t.is(typeof cctz.get_weekday, 'function');
-// 	t.is(typeof cctz.next_weekday, 'function');
-// 	t.is(typeof cctz.prev_weekday, 'function');
-// 	t.is(typeof cctz.get_yearday, 'function');
-// });
-
-// test('has civil_time.h constants', t => {
-// 	t.is(typeof cctz.weekday.monday, 'number');
-// 	t.is(typeof cctz.weekday.tuesday, 'number');
-// 	t.is(typeof cctz.weekday.wednesday, 'number');
-// 	t.is(typeof cctz.weekday.thursday, 'number');
-// 	t.is(typeof cctz.weekday.friday, 'number');
-// 	t.is(typeof cctz.weekday.saturday, 'number');
-// 	t.is(typeof cctz.weekday.sunday, 'number');
-// });

@@ -6,6 +6,7 @@
 #include "time_zone.h"
 #include "timezone.h"
 #include "timepoint.h"
+#include "civiltime.h"
 
 NAN_METHOD(load_time_zone) {
 	if (info.Length() < 1) {
@@ -88,9 +89,14 @@ NAN_METHOD(format) {
 	info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
 }
 
+NAN_METHOD(convert) {
+
+}
+
 NAN_MODULE_INIT(Init) {
-	TimePoint::Init();
-	TimeZone::Init();
+	TimePoint::Init(target);
+	TimeZone::Init(target);
+	CivilSecond::Init(target);
 
 	NAN_EXPORT(target, load_time_zone);
 	NAN_EXPORT(target, parse);
