@@ -37,6 +37,13 @@ To be discussed.
 
 ## Benchmarks
 
+```
+Parse-Format    (moment) x 19,612 ops/sec ±1.67% (81 runs sampled)
+Parse-Format      (cctz) x 501,881 ops/sec ±3.16% (77 runs sampled)
+Increment hour  (moment) x 549 ops/sec ±1.89% (82 runs sampled)
+Increment hour    (cctz) x 5,318 ops/sec ±2.02% (86 runs sampled)
+```
+
 Run `npm i` and then `npm run bench`.
 
 ## License
