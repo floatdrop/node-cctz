@@ -21,7 +21,7 @@ suite
 	.add('Increment hour    (Date)', () => {
 		const date = new Date('2015-09-22 09:35:12 GMT+0300');
 		for (let i = 0; i < 1000; i++) {
-			date.setTime(date.getTime() + i * (60*60*1000));
+			date.setTime(date.getTime() + (i * 60 * 60 * 1000));
 		}
 	})
 	.add('Increment hour    (cctz)', () => {

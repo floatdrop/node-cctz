@@ -40,7 +40,7 @@ NAN_GETTER(CivilSecond::GetYear) {
 NAN_SETTER(CivilSecond::SetYear) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
-	cs->value = cctz::civil_second(value->ToInteger()->Value(), d.month(), d.day(), d.hour(), d.minute(), d.second());
+	cs->value += cctz::civil_second(value->ToInteger()->Value(), d.month(), d.day(), d.hour(), d.minute(), d.second());
 	info.GetReturnValue().Set(info.This());
 }
 
