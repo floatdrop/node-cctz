@@ -14,6 +14,21 @@ const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 const time = tz.lookup(tp);
 
 console.log(time);
+/*
+{ offset: 18000,
+  is_dst: false,
+  abbr: '+05',
+  cs:
+   CivilSecond {
+     yearday: 265,
+     weekday: 6,
+     second: 12,
+     minute: 35,
+     hour: 9,
+     day: 22,
+     month: 9,
+     year: 2015 } }
+*/
 ```
 
 ## API
