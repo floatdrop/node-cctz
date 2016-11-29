@@ -110,12 +110,17 @@ Name of TimeZone.
 ## Benchmarks
 
 ```
-Parse-Format      (Date) x 590,555 ops/sec ±1.64% (83 runs sampled)
-Parse-Format      (cctz) x 505,249 ops/sec ±3.95% (78 runs sampled)
-Parse-Format    (moment) x 19,295 ops/sec ±2.12% (81 runs sampled)
-Increment hour    (Date) x 15,962 ops/sec ±6.53% (79 runs sampled)
-Increment hour    (cctz) x 5,718 ops/sec ±1.66% (85 runs sampled)
-Increment hour  (moment) x 600 ops/sec ±1.58% (84 runs sampled)
+Format Now          (Date) x 3,159,444 ops/sec ±1.02% (84 runs sampled)
+Format Now   (cctz-format) x 682,804 ops/sec ±10.42% (63 runs sampled)
+Format Now   (cctz-concat) x 431,137 ops/sec ±6.08% (63 runs sampled)
+Format Now (moment-format) x 77,865 ops/sec ±6.04% (75 runs sampled)
+Format Now (moment-concat) x 113,597 ops/sec ±5.99% (77 runs sampled)
+Parse-Format        (Date) x 562,212 ops/sec ±3.60% (80 runs sampled)
+Parse-Format        (cctz) x 497,784 ops/sec ±5.03% (79 runs sampled)
+Parse-Format      (moment) x 17,275 ops/sec ±9.55% (73 runs sampled)
+Increment hour      (Date) x 17,906 ops/sec ±3.99% (80 runs sampled)
+Increment hour      (cctz) x 5,504 ops/sec ±5.30% (81 runs sampled)
+Increment hour    (moment) x 604 ops/sec ±1.97% (83 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
