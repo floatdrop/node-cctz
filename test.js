@@ -61,13 +61,3 @@ test('example1.cc works', t => {
 
 	t.is(str, 'Talk starts at 12:00:00 -0400 (EDT)');
 });
-
-// test('has time_zone.h methods', t => {
-// 	t.is(typeof cctz.time_zone, 'function');
-// 	t.is(typeof cctz.utc_time_zone, 'function');
-// 	t.is(typeof cctz.local_time_zone, 'function');
-// 	t.is(typeof cctz.convert, 'function');
-// 	t.is(typeof cctz.format, 'function');
-// 	t.is(typeof cctz.parse, 'function');
-// });
-
