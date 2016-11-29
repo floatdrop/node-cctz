@@ -1,8 +1,8 @@
 # node-cctz [![Build Status](https://travis-ci.org/floatdrop/node-cctz.svg?branch=master)](https://travis-ci.org/floatdrop/node-cctz)
 
-> Because sometimes Moment.JS is too slow
+> Because sometimes Moment.JS is slow
 
-Google [CCTZ](https://github.com/google/cctz) binding for Node.JS.
+[CCTZ](https://github.com/google/cctz) is a C++ library for translating between absolute and civil times using the rules of a time zone.
 
 ## Usage
 
@@ -15,7 +15,7 @@ const tp = cctz.convert(new cctz.CivilSecond(2015, 9, 22, 9), lax);
 const nyc = cctz.load_time_zone('America/New_York');
 console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
-// =>
+// => Talk starts at 12:00:00 -0400 (EDT)
 ```
 
 ## API
@@ -24,6 +24,8 @@ console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
 Returns TimeZone object for time zone with `name` from `/usr/share/zoneinfo`.
 
+> __Pro-tip__: Cache TimeZone objects.
+
 #### cctz.utc_time_zone()
 
 Returns `UTC` TimeZone object.
@@ -31,8 +33,6 @@ Returns `UTC` TimeZone object.
 #### cctz.local_time_zone()
 
 Returns `localtime` TimeZone object.
-
-> __Pro-tip__: Cache TimeZone object.
 
 #### cctz.parse(format, input, timezone)
 
