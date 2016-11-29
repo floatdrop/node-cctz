@@ -10,6 +10,7 @@ suite
 		return date.format('YYYY-MM-DD hh-mm-ss');
 	})
 	.add('Parse-Format   (cctz)', () => {
+		// Cache dis to get +100000 op/s
 		const tz = cctz.load_time_zone('America/New_York');
 		const time = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 		return cctz.format('%Y-%m-%d %H:%M:%S', time, tz);
