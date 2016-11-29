@@ -49,7 +49,7 @@ test('convert shortcut is working', t => {
 
 	const tz2 = cctz.convert(cs, tz);
 	// Since CivilSeconds does not contains milliseconds
-	t.is(tz2.unix, Math.round(now / 1000) * 1000);
+	t.is(tz2.unix, Math.floor(now / 1000) * 1000);
 });
 
 // test('has time_zone.h methods', t => {
