@@ -34,6 +34,13 @@ test('CivilTime has setters', t => {
 	ct.cs.year += 1;
 	t.is(ct.cs.year, 2016);
 });
+
+test('TimePoint has unix timestamp constructor', t => {
+	const unix = new Date().getTime();
+	const tp = new cctz.TimePoint(unix);
+	t.is(tp.unix, unix);
+});
+
 // test('has time_zone.h methods', t => {
 // 	t.is(typeof cctz.time_zone, 'function');
 // 	t.is(typeof cctz.utc_time_zone, 'function');

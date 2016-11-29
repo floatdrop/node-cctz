@@ -34,6 +34,14 @@ NAN_GETTER(TimePoint::GetUnixTimestamp) {
 
 NAN_METHOD(TimePoint::New) {
 	TimePoint* obj = new TimePoint();
+
+	if (info.Length() > 0 && info[0]->IsNumber()) {
+		auto unix_timestamp = info[0]->NumberValue();
+		obj->value = std::chrono::system_clock::time_point{std::chrono::milliseconds{(long long) unix_timestamp}};
+	} else {
+		obj->value = std::chrono::system_clock::now();
+	}
+
 	obj->Wrap(info.This());
 	info.GetReturnValue().Set(info.This());
 }
