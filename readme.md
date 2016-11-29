@@ -38,10 +38,11 @@ To be discussed.
 ## Benchmarks
 
 ```
-Parse-Format    (moment) x 19,612 ops/sec ±1.67% (81 runs sampled)
-Parse-Format      (cctz) x 501,881 ops/sec ±3.16% (77 runs sampled)
-Increment hour  (moment) x 549 ops/sec ±1.89% (82 runs sampled)
-Increment hour    (cctz) x 5,318 ops/sec ±2.02% (86 runs sampled)
+Parse-Format      (Date) x 497,848 ops/sec ±11.73% (79 runs sampled)
+Parse-Format      (cctz) x 476,584 ops/sec ±3.59% (78 runs sampled)
+Parse-Format    (moment) x 16,757 ops/sec ±5.38% (72 runs sampled)
+Increment hour    (cctz) x 4,077 ops/sec ±12.77% (66 runs sampled)
+Increment hour  (moment) x 338 ops/sec ±26.23% (55 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
