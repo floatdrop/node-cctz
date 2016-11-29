@@ -19,6 +19,10 @@ console.log(time);
 
 To be discussed.
 
+## Benchmarks
+
+Run `npm i` and then `npm run bench`.
+
 ## License
 
 MIT © [Vsevolod Strukchinsky](mailto://floatdrop@gmail.com)
