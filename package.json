@@ -22,5 +22,13 @@
     "bindings": "^1.2.1",
     "moment-timezone": "^0.5.9",
     "xo": "^0.17.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/floatdrop/node-cctz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/floatdrop/node-cctz/issues"
+  },
+  "homepage": "https://github.com/floatdrop/node-cctz#readme"
 }
