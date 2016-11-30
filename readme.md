@@ -30,10 +30,6 @@ Returns TimeZone object for time zone with `name` from `/usr/share/zoneinfo`.
 
 Returns `UTC` TimeZone object.
 
-#### cctz.local_time_zone()
-
-Returns `localtime` TimeZone object.
-
 #### cctz.parse(format, input, timezone)
 
 Parses `input` string according to `format` string (assuming `input` in `timezone`).

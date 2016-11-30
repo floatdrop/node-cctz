@@ -70,3 +70,8 @@ test('normalization works', t => {
 	t.is(now.month, endOfMonth.month);
 	t.is(endOfMonth.day, 29);
 });
+
+test('utc_time_zone works', t => {
+	const tz = cctz.utc_time_zone();
+	t.is(tz.name, 'UTC');
+});

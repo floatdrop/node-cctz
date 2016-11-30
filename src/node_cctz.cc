@@ -9,18 +9,8 @@
 #include "civiltime.h"
 
 NAN_METHOD(utc_time_zone) {
-	v8::Local<v8::Object> result = TimeZone::NewInstance();
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(result);
-	tz->value = cctz::utc_time_zone();
-	tz->name = "UTC";
-	info.GetReturnValue().Set(result);
-}
-
-NAN_METHOD(local_time_zone) {
-	v8::Local<v8::Object> result = TimeZone::NewInstance();
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(result);
-	tz->value = cctz::local_time_zone();
-	tz->name = "localtime";
+	// TODO: use cctz::utc_time_zone
+	v8::Local<v8::Object> result = TimeZone::NewInstance(Nan::New("UTC").ToLocalChecked());
 	info.GetReturnValue().Set(result);
 }
 
@@ -162,7 +152,6 @@ NAN_MODULE_INIT(Init) {
 
 	NAN_EXPORT(target, load_time_zone);
 	NAN_EXPORT(target, utc_time_zone);
-	NAN_EXPORT(target, local_time_zone);
 	NAN_EXPORT(target, parse);
 	NAN_EXPORT(target, format);
 	NAN_EXPORT(target, convert);
