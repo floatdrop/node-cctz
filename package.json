@@ -13,13 +13,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "bindings": "^1.2.1",
     "nan": "^2.4.0"
   },
   "gypfile": true,
   "devDependencies": {
     "ava": "^0.17.0",
     "benchmark": "^2.1.2",
-    "bindings": "^1.2.1",
     "moment-timezone": "^0.5.9",
     "xo": "^0.17.1"
   },
