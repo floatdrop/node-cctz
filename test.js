@@ -61,3 +61,12 @@ test('example1.cc works', t => {
 
 	t.is(str, 'Talk starts at 12:00:00 -0400 (EDT)');
 });
+
+test('normalization works', t => {
+	const now = new cctz.CivilSecond(2016, 5);
+	const endOfMonth = new cctz.CivilSecond(now.year, now.month + 1, -1);
+
+	t.is(now.year, endOfMonth.year);
+	t.is(now.month, endOfMonth.month);
+	t.is(endOfMonth.day, 29);
+});
