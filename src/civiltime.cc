@@ -41,7 +41,6 @@ NAN_SETTER(CivilSecond::SetYear) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(value->ToInteger()->Value(), d.month(), d.day(), d.hour(), d.minute(), d.second());
-	info.GetReturnValue().Set(info.This());
 }
 
 NAN_GETTER(CivilSecond::GetMonth) {
@@ -53,7 +52,6 @@ NAN_SETTER(CivilSecond::SetMonth) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), value->ToInteger()->Value(), d.day(), d.hour(), d.minute(), d.second());
-	info.GetReturnValue().Set(info.This());
 }
 
 NAN_GETTER(CivilSecond::GetDay) {
@@ -65,7 +63,6 @@ NAN_SETTER(CivilSecond::SetDay) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), value->ToInteger()->Value(), d.hour(), d.minute(), d.second());
-	info.GetReturnValue().Set(info.This());
 }
 
 NAN_GETTER(CivilSecond::GetHour) {
@@ -77,7 +74,6 @@ NAN_SETTER(CivilSecond::SetHour) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), d.day(), value->ToInteger()->Value(), d.minute(), d.second());
-	info.GetReturnValue().Set(info.This());
 }
 
 NAN_GETTER(CivilSecond::GetMinute) {
@@ -89,7 +85,6 @@ NAN_SETTER(CivilSecond::SetMinute) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), d.day(), d.hour(), value->ToInteger()->Value(), d.second());
-	info.GetReturnValue().Set(info.This());
 }
 
 NAN_GETTER(CivilSecond::GetSecond) {
@@ -101,7 +96,6 @@ NAN_SETTER(CivilSecond::SetSecond) {
 	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), d.day(), d.hour(), d.minute(), value->ToInteger()->Value());
-	info.GetReturnValue().Set(info.This());
 }
 
 NAN_GETTER(CivilSecond::GetWeekday) {

@@ -26,10 +26,15 @@ test('CivilTime has getters', t => {
 	t.is(ct.offset, -14400);
 });
 
-test('CivilTime has setters', t => {
+test('CivilTime has getters and setters', t => {
 	const tz = cctz.load_time_zone('America/New_York');
 	const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 	const ct = tz.lookup(tp);
+
+	const get = ct.cs.year + 1;
+	t.is(get, 2016);
+	t.is(ct.cs.year, 2015);
+	t.is(get === ct.cs, false);
 
 	ct.cs.year += 1;
 	t.is(ct.cs.year, 2016);
