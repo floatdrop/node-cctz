@@ -63,6 +63,10 @@ Creates CivilTime object with next properties:
 - `yearday` – only getter [1:356]
 - `weekday` – only getter [0:6]
 
+#### CivilTime.clone()
+
+Returns cloned CivilTime object.
+
 
 ### TimeZone
 
