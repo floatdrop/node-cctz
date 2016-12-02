@@ -3,7 +3,6 @@ const moment = require('moment-timezone');
 const cctz = require('./');
 
 const suite = new Benchmark.Suite();
-
 suite
 	.add('Format Now      (baseline)', () => {
 		const date = new Date();

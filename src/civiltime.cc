@@ -18,6 +18,9 @@ void CivilTime::Init(v8::Local<v8::Object> target) {
 
 	// Prototype
 	Nan::SetPrototypeMethod(tpl, "clone", Clone);
+	Nan::SetPrototypeMethod(tpl, "startOfYear", StartOfYear);
+	Nan::SetPrototypeMethod(tpl, "startOfMonth", StartOfMonth);
+	Nan::SetPrototypeMethod(tpl, "startOfDay", StartOfDay);
 	Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("year").ToLocalChecked(), GetYear, SetYear);
 	Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("month").ToLocalChecked(), GetMonth, SetMonth);
 	Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("day").ToLocalChecked(), GetDay, SetDay);
@@ -132,6 +135,39 @@ NAN_METHOD(CivilTime::Clone) {
 	CivilTime* obj = Nan::ObjectWrap::Unwrap<CivilTime>(result);
 
 	obj->value = cctz::civil_second{self->value};
+	info.GetReturnValue().Set(result);
+}
+
+NAN_METHOD(CivilTime::StartOfYear) {
+	CivilTime* self = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
+	auto& target = self->value;
+
+	v8::Local<v8::Object> result = CivilTime::NewInstance();
+	CivilTime* obj = Nan::ObjectWrap::Unwrap<CivilTime>(result);
+
+	obj->value = cctz::civil_second(target.year());
+	info.GetReturnValue().Set(result);
+}
+
+NAN_METHOD(CivilTime::StartOfMonth) {
+	CivilTime* self = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
+	auto& target = self->value;
+
+	v8::Local<v8::Object> result = CivilTime::NewInstance();
+	CivilTime* obj = Nan::ObjectWrap::Unwrap<CivilTime>(result);
+
+	obj->value = cctz::civil_second(target.year(), target.month());
+	info.GetReturnValue().Set(result);
+}
+
+NAN_METHOD(CivilTime::StartOfDay) {
+	CivilTime* self = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
+	auto& target = self->value;
+
+	v8::Local<v8::Object> result = CivilTime::NewInstance();
+	CivilTime* obj = Nan::ObjectWrap::Unwrap<CivilTime>(result);
+
+	obj->value = cctz::civil_second(target.year(), target.month(), target.day());
 	info.GetReturnValue().Set(result);
 }
 

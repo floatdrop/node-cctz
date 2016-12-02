@@ -63,6 +63,18 @@ Creates CivilTime object with next properties:
 - `yearday` – only getter [1:356]
 - `weekday` – only getter [0:6]
 
+##### CivilTime.startOfYear()
+
+Returns new CivilTime object with start of year.
+
+##### CivilTime.startOfMonth()
+
+Returns new CivilTime object with start of month.
+
+##### CivilTime.startOfDay()
+
+Returns new CivilTime object with start of day.
+
 #### CivilTime.clone()
 
 Returns cloned CivilTime object.

@@ -1,6 +1,33 @@
 import test from 'ava';
 import cctz from './';
 
+test('startOf...', t => {
+	const time = new cctz.CivilTime(2015, 2, 2, 2, 2, 2);
+	const syear = time.startOfYear();
+	t.is(syear.year, 2015);
+	t.is(syear.month, 1);
+	t.is(syear.day, 1);
+	t.is(syear.hour, 0);
+	t.is(syear.minute, 0);
+	t.is(syear.second, 0);
+
+	const smnth = time.startOfMonth();
+	t.is(smnth.year, 2015);
+	t.is(smnth.month, 2);
+	t.is(smnth.day, 1);
+	t.is(smnth.hour, 0);
+	t.is(smnth.minute, 0);
+	t.is(smnth.second, 0);
+
+	const sday = time.startOfDay();
+	t.is(sday.year, 2015);
+	t.is(sday.month, 2);
+	t.is(sday.day, 2);
+	t.is(sday.hour, 0);
+	t.is(sday.minute, 0);
+	t.is(sday.second, 0);
+});
+
 test('undefined in arguments', t => {
 	t.throws(() => cctz.load_time_zone(undefined));
 	t.throws(() => cctz.parse(undefined));

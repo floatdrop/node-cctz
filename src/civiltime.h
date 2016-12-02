@@ -44,6 +44,12 @@ private:
 	// TODO: next_weekday
 
 	static NAN_GETTER(GetYearday);
+
+	// These methods 2x faster, that reassigning fields
+	// TODO: Other StartOf* and EndOf* methods
+	static NAN_METHOD(StartOfYear);
+	static NAN_METHOD(StartOfMonth);
+	static NAN_METHOD(StartOfDay);
 };
 
 #endif
