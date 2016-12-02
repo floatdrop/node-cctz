@@ -89,8 +89,3 @@ test('CivilTime clone works', t => {
 	t.is(now.day, 1);
 	t.is(now.day + 1, tomorrow.day);
 });
-
-test('utc_time_zone works', t => {
-	const tz = cctz.utc_time_zone();
-	t.is(tz.name, 'UTC');
-});

@@ -20,33 +20,28 @@ console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
 ## API
 
-#### cctz.load_time_zone(name)
+#### load_time_zone(name)
 
 Returns TimeZone object for time zone with `name` from `/usr/share/zoneinfo`.
+It is recomended to use this method, because it maintain internal cache of V8 objects.
 
-> __Pro-tip__: Cache TimeZone objects.
-
-#### cctz.utc_time_zone()
-
-Returns `UTC` TimeZone object.
-
-#### cctz.parse(format, input, timezone)
+#### parse(format, input, timezone)
 
 Parses `input` string according to `format` string (assuming `input` in `timezone`).
 
 Returns unix timestamp.
 
-#### cctz.format(format, unix, timezone)
+#### format(format, unix, timezone)
 
 Formats unix timestamp `unix` object according to `format` in `timezone`.
 
 Returns string.
 
-#### cctz.convert(unix, timezone)
+#### convert(unix, timezone)
 
 Returns CivilTime object from unix timestamp in `timezone`.
 
-#### cctz.convert(civilsecond, timezone)
+#### convert(civilsecond, timezone)
 
 Returns unix timestamp from `civilsecond` in `timezone`.
 
@@ -57,16 +52,16 @@ Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6a694a40f3
 
 #### CivilTime(year = 1970, month = 1, day = 1, hour = 0, minute = 0, second = 0)
 
-Creates CivilTime object.
+Creates CivilTime object with next properties:
 
-##### CivilTime.year
-##### CivilTime.month [1:12]
-##### CivilTime.day [1:31]
-##### CivilTime.hour [0:23]
-##### CivilTime.minute [0:59]
-##### CivilTime.second [0:59]
-##### CivilTime.yearday (only getter) [1:356]
-##### CivilTime.weekday (only getter) [0:6]
+- `year` – getter and setter
+- `month` – getter and setter [1:12]
+- `day` – getter and setter [1:31]
+- `hour` – getter and setter [0:23]
+- `minute` – getter and setter [0:59]
+- `second` – getter and setter [0:59]
+- `yearday` – only getter [1:356]
+- `weekday` – only getter [0:6]
 
 
 ### TimeZone
@@ -75,7 +70,7 @@ Holder for [`cctz::time_zone`](https://github.com/google/cctz/blob/6a694a40f3770
 
 #### TimeZone(name)
 
-Same as `load_time_zone`.
+Creates __new__ object with TimeZone.
 
 ##### TimeZone.lookup(unix)
 
