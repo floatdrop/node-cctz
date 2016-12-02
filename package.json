@@ -1,6 +1,6 @@
 {
   "name": "cctz",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Google CCTZ binding for Node.JS",
   "main": "index.js",
   "scripts": {
