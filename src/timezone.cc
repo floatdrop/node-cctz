@@ -58,10 +58,8 @@ NAN_METHOD(TimeZone::Lookup) {
 		return;
 	}
 
-	auto arg0 = info[0]->ToObject();
-
-	if (Nan::New(CivilTime::prototype)->HasInstance(arg0)) {
-		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(arg0);
+	if (info[0]->IsObject() && Nan::New(CivilTime::prototype)->HasInstance(info[0]->ToObject())) {
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info[0]->ToObject());
 		auto lookup = tz->value.lookup(cs->value);
 
 		// TODO: Move this to CivilLookup class
@@ -90,11 +88,14 @@ NAN_METHOD(TimeZone::New) {
 		return Nan::ThrowTypeError("TimeZone constructor cannot be invoked without 'new'");
 	}
 
+	if (!info[0]->IsString()) {
+		return Nan::ThrowTypeError("timezone should be a String");
+	}
+
 	TimeZone* obj = new TimeZone();
 
 	if (!cctz::load_time_zone(*Nan::Utf8String(info[0]), &(obj->value))) {
-		Nan::ThrowError("Failed to load time zone");
-		return;
+		return Nan::ThrowError("Failed to load time zone");
 	}
 
 	obj->Wrap(info.This());

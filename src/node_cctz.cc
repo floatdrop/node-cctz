@@ -52,8 +52,7 @@ NAN_METHOD(parse) {
 		return;
 	}
 
-	auto arg2 = info[2]->ToObject();
-	if (!Nan::New(TimeZone::prototype)->HasInstance(arg2)) {
+	if (!info[2]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
 		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
 		return;
 	}
@@ -61,7 +60,7 @@ NAN_METHOD(parse) {
 	std::string format = *Nan::Utf8String(info[0]);
 	std::string input = *Nan::Utf8String(info[1]);
 
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
+	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
 	std::chrono::system_clock::time_point tp;
 	bool parsed = cctz::parse(format, input, tz->value, &tp);
 
@@ -84,12 +83,11 @@ NAN_METHOD(format) {
 	}
 	std::string format = *Nan::Utf8String(info[0]);
 
-	auto arg2 = info[2]->ToObject();
-	if (!Nan::New(TimeZone::prototype)->HasInstance(arg2)) {
+	if (!info[2]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
 		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
 		return;
 	}
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
+	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
 
 	if (info[1]->IsNumber()) {
 		auto arg1 = info[1]->NumberValue();
@@ -117,13 +115,12 @@ NAN_METHOD(convert) {
 		return;
 	}
 
-	auto arg1 = info[1]->ToObject();
-	if (!Nan::New(TimeZone::prototype)->HasInstance(arg1)) {
+	if (!info[1]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[1]->ToObject())) {
 		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
 		return;
 	}
 
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg1);
+	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[1]->ToObject());
 
 	if (info[0]->IsNumber()) {
 		auto tp = toTimePoint(info[0]->NumberValue());
@@ -137,9 +134,8 @@ NAN_METHOD(convert) {
 		return;
 	}
 
-	auto arg0 = info[0]->ToObject();
-	if (Nan::New(CivilTime::prototype)->HasInstance(arg0)) {
-		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(arg0);
+	if (info[0]->IsObject() && Nan::New(CivilTime::prototype)->HasInstance(info[0]->ToObject())) {
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info[0]->ToObject());
 		const cctz::time_zone::civil_lookup cl = tz->value.lookup(cs->value);
 
 		if (cl.kind == cctz::time_zone::civil_lookup::SKIPPED) {

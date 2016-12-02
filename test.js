@@ -1,6 +1,23 @@
 import test from 'ava';
 import cctz from './';
 
+test('undefined in arguments', t => {
+	t.throws(() => cctz.load_time_zone(undefined));
+	t.throws(() => cctz.parse(undefined));
+	t.throws(() => cctz.parse('', undefined));
+	t.throws(() => cctz.parse('', 1, undefined));
+	t.throws(() => cctz.format(undefined));
+	t.throws(() => cctz.format('', undefined));
+	t.throws(() => cctz.format('', 1, undefined));
+	t.throws(() => cctz.convert(undefined));
+	t.throws(() => cctz.convert('', undefined));
+	t.throws(() => cctz.convert(new cctz.CivilTime(), undefined));
+	t.throws(() => new cctz.TimeZone(undefined));
+
+	const tz = new cctz.TimeZone('UTC');
+	t.throws(() => tz.lookup(undefined));
+});
+
 test('simple parsing -> format cycle works', t => {
 	const tz = cctz.load_time_zone('America/New_York');
 	const time = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
