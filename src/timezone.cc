@@ -37,9 +37,9 @@ NAN_METHOD(TimeZone::Lookup) {
 	}
 
 	if (info[0]->IsNumber()) {
-		double unix = info[0]->NumberValue();
+		double unixTimestamp = info[0]->NumberValue();
 
-		auto tp = toTimePoint(unix);
+		auto tp = toTimePoint(unixTimestamp);
 		auto lookup = tz->value.lookup(tp);
 
 		// TODO: Move this to AbsoluteLookup class
