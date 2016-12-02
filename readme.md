@@ -43,9 +43,9 @@ Returns string.
 
 Returns CivilTime object from unix timestamp in `timezone`.
 
-#### convert(civilsecond, timezone)
+#### convert(civiltime, timezone)
 
-Returns unix timestamp from `civilsecond` in `timezone`.
+Returns unix timestamp from `civiltime` in `timezone`.
 
 
 ### CivilTime
@@ -94,7 +94,7 @@ Creates __new__ object with TimeZone.
 
 Returns [`cctz::absolute_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L60) object.
 
-##### TimeZone.lookup(civilsecond)
+##### TimeZone.lookup(civiltime)
 
 Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L85) object.
 
