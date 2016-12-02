@@ -1,12 +1,15 @@
 #include <string>
 #include <chrono>
 #include <nan.h>
+#include <unordered_map>
 
 #include "civil_time.h"
 #include "time_zone.h"
 #include "timezone.h"
 #include "civiltime.h"
 #include "util.h"
+
+static std::unordered_map<std::string, std::unique_ptr<Nan::Persistent<v8::Object>>> time_zone_map;
 
 NAN_METHOD(utc_time_zone) {
 	// TODO: use cctz::utc_time_zone
@@ -21,12 +24,21 @@ NAN_METHOD(load_time_zone) {
 	}
 
 	if (!info[0]->IsString()) {
-		Nan::ThrowTypeError("timezone must be a string");
+		Nan::ThrowTypeError("timezone must be a String");
 		return;
 	}
 
-	// TODO: Cache TimeZone objects (+100,000 op/s)
-	info.GetReturnValue().Set(TimeZone::NewInstance(info[0]));
+	std::string name = *Nan::Utf8String(info[0]);
+
+	auto itr = time_zone_map.find(name);
+	if (itr != time_zone_map.end()) {
+		info.GetReturnValue().Set(Nan::New(*(itr->second)));
+		return;
+	}
+
+	std::unique_ptr<Nan::Persistent<v8::Object>> persist(new Nan::Persistent<v8::Object>(TimeZone::NewInstance(info[0])));
+	info.GetReturnValue().Set(Nan::New(*persist));
+	time_zone_map[name] = std::move(persist);
 }
 
 NAN_METHOD(parse) {

@@ -3,7 +3,6 @@ const moment = require('moment-timezone');
 const cctz = require('./');
 
 const suite = new Benchmark.Suite();
-const tz = cctz.load_time_zone('America/New_York');
 
 suite
 	.add('Format Now      (baseline)', () => {
@@ -11,9 +10,11 @@ suite
 		return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
 	})
 	.add('Format Now   (cctz-format)', () => {
+		const tz = cctz.load_time_zone('America/New_York');
 		return cctz.format('%Y-%m-%d', Date.now() / 1000, tz);
 	})
 	.add('Format Now   (cctz-concat)', () => {
+		const tz = cctz.load_time_zone('America/New_York');
 		const cs = cctz.convert(Date.now() / 1000, tz);
 		return cs.year + '-' + cs.month + '-' + cs.day;
 	})
@@ -29,6 +30,7 @@ suite
 		return date.toString();
 	})
 	.add('Parse-Format        (cctz)', () => {
+		const tz = cctz.load_time_zone('America/New_York');
 		const time = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 		return cctz.format('%Y-%m-%d %H:%M:%S', time, tz);
 	})
@@ -43,6 +45,7 @@ suite
 		}
 	})
 	.add('Increment hour      (cctz)', () => {
+		const tz = cctz.load_time_zone('America/New_York');
 		const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 		const time = tz.lookup(tp).cs;
 		for (let i = 0; i < 1000; i++) {
