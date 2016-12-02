@@ -19,6 +19,7 @@ private:
 
 	static Nan::Persistent<v8::Function> constructor;
 	static NAN_METHOD(New);
+	static NAN_METHOD(Clone);
 
 	static NAN_GETTER(GetYear);
 	static NAN_SETTER(SetYear);

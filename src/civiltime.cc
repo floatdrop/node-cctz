@@ -17,6 +17,7 @@ void CivilTime::Init(v8::Local<v8::Object> target) {
 	tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
 	// Prototype
+	Nan::SetPrototypeMethod(tpl, "clone", Clone);
 	Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("year").ToLocalChecked(), GetYear, SetYear);
 	Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("month").ToLocalChecked(), GetMonth, SetMonth);
 	Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("day").ToLocalChecked(), GetDay, SetDay);
@@ -124,14 +125,24 @@ NAN_GETTER(CivilTime::GetYearday) {
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cctz::get_yearday(cctz::civil_day(cs->value))));
 }
 
+NAN_METHOD(CivilTime::Clone) {
+	CivilTime* self = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
+
+	v8::Local<v8::Object> result = CivilTime::NewInstance();
+	CivilTime* obj = Nan::ObjectWrap::Unwrap<CivilTime>(result);
+
+	obj->value = cctz::civil_second{self->value};
+	info.GetReturnValue().Set(result);
+}
+
 NAN_METHOD(CivilTime::New) {
 	if (!info.IsConstructCall()) {
 		return Nan::ThrowTypeError("CivilTime constructor cannot be invoked without 'new'");
 	}
 
-	auto year   = (info[0]->IsUndefined() || !info[0]->IsNumber()) ? 0 : info[0]->NumberValue();
-	auto month  = (info[1]->IsUndefined() || !info[1]->IsNumber()) ? 0 : info[1]->NumberValue();
-	auto day    = (info[2]->IsUndefined() || !info[2]->IsNumber()) ? 0 : info[2]->NumberValue();
+	auto year   = (info[0]->IsUndefined() || !info[0]->IsNumber()) ? 1970 : info[0]->NumberValue();
+	auto month  = (info[1]->IsUndefined() || !info[1]->IsNumber()) ? 1 : info[1]->NumberValue();
+	auto day    = (info[2]->IsUndefined() || !info[2]->IsNumber()) ? 1 : info[2]->NumberValue();
 	auto hour   = (info[3]->IsUndefined() || !info[3]->IsNumber()) ? 0 : info[3]->NumberValue();
 	auto minute = (info[4]->IsUndefined() || !info[4]->IsNumber()) ? 0 : info[4]->NumberValue();
 	auto second = (info[5]->IsUndefined() || !info[5]->IsNumber()) ? 0 : info[5]->NumberValue();

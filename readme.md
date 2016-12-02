@@ -55,7 +55,7 @@ Returns unix timestamp from `civilsecond` in `timezone`.
 
 Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/civil_time.h#L22) with getters and setters for properties.
 
-#### CivilTime(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0)
+#### CivilTime(year = 1970, month = 1, day = 1, hour = 0, minute = 0, second = 0)
 
 Creates CivilTime object.
 

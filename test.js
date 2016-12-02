@@ -26,7 +26,7 @@ test('CivilTime has getters', t => {
 	t.is(ct.offset, -14400);
 });
 
-test('CivilTime has getters and setters', t => {
+test('CivilTime has setters', t => {
 	const tz = cctz.load_time_zone('America/New_York');
 	const tp = cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 	const ct = tz.lookup(tp);
@@ -74,11 +74,20 @@ test('example1.cc works', t => {
 
 test('normalization works', t => {
 	const now = new cctz.CivilTime(2016, 5);
-	const endOfMonth = new cctz.CivilTime(now.year, now.month + 1, -1);
+	const endOfMonth = new cctz.CivilTime(now.year, now.month + 1, 0);
 
 	t.is(now.year, endOfMonth.year);
 	t.is(now.month, endOfMonth.month);
-	t.is(endOfMonth.day, 29);
+	t.is(endOfMonth.day, 31);
+});
+
+test('CivilTime clone works', t => {
+	const now = new cctz.CivilTime(2016, 5);
+	const tomorrow = now.clone();
+	tomorrow.day += 1;
+
+	t.is(now.day, 1);
+	t.is(now.day + 1, tomorrow.day);
 });
 
 test('utc_time_zone works', t => {
