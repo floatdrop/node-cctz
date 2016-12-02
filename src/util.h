@@ -14,8 +14,9 @@ static std::chrono::system_clock::time_point toTimePoint(const double unix) {
 }
 
 static int toUnixTimestamp(const std::chrono::system_clock::time_point& timepoint) {
-	auto duration = timepoint.time_since_epoch();
-	return std::chrono::duration_cast<std::chrono::seconds>(duration).count();
+	return std::chrono::duration_cast<std::chrono::seconds>(
+		timepoint.time_since_epoch()
+	).count();
 }
 
 #endif

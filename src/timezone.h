@@ -12,7 +12,6 @@ public:
 	static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
 	static Nan::Persistent<v8::FunctionTemplate> prototype;
 
-	std::string name;
 	cctz::time_zone value;
 
 private:
