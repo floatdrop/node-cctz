@@ -11,10 +11,10 @@ suite
 		return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
 	})
 	.add('Format Now   (cctz-format)', () => {
-		return cctz.format('%Y-%m-%d', new cctz.TimePoint(), tz);
+		return cctz.format('%Y-%m-%d', Date.now() / 1000, tz);
 	})
 	.add('Format Now   (cctz-concat)', () => {
-		const cs = cctz.convert(new cctz.TimePoint(), tz);
+		const cs = cctz.convert(Date.now() / 1000, tz);
 		return cs.year + '-' + cs.month + '-' + cs.day;
 	})
 	.add('Format Now (moment-format)', () => {

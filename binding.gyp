@@ -12,7 +12,6 @@
         "cctz/src/time_zone_lookup.cc",
         "cctz/src/time_zone_posix.cc",
         "src/civiltime.cc",
-        "src/timepoint.cc",
         "src/timezone.cc",
         "src/node_cctz.cc"
       ],

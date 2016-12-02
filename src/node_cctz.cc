@@ -5,8 +5,8 @@
 #include "civil_time.h"
 #include "time_zone.h"
 #include "timezone.h"
-#include "timepoint.h"
 #include "civiltime.h"
+#include "util.h"
 
 NAN_METHOD(utc_time_zone) {
 	// TODO: use cctz::utc_time_zone
@@ -55,21 +55,19 @@ NAN_METHOD(parse) {
 	std::string input = *Nan::Utf8String(info[1]);
 
 	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
-	v8::Local<v8::Object> result = TimePoint::NewInstance();
-	TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(result);
-
-	bool parsed = cctz::parse(format, input, tz->value, &(tp->value));
+	std::chrono::system_clock::time_point tp;
+	bool parsed = cctz::parse(format, input, tz->value, &tp);
 
 	if (!parsed) {
 		return;
 	}
 
-	info.GetReturnValue().Set(result);
+	info.GetReturnValue().Set(Nan::New(toUnixTimestamp(tp)));
 }
 
 NAN_METHOD(format) {
 	if (info.Length() < 3) {
-		Nan::ThrowTypeError("Expected 3 arguments: format, timepoint, timezone");
+		Nan::ThrowTypeError("Expected 3 arguments: format, unix timestamp, timezone");
 		return;
 	}
 
@@ -78,12 +76,12 @@ NAN_METHOD(format) {
 		return;
 	}
 
-	auto arg1 = info[1]->ToObject();
-	if (!Nan::New(TimePoint::prototype)->HasInstance(arg1)) {
-		Nan::ThrowTypeError("timepoint must be an instance of TimePoint");
+	if (!info[1]->IsNumber()) {
+		Nan::ThrowTypeError("unix timestamp must be a Number");
 		return;
 	}
 
+	auto arg1 = info[1]->NumberValue();
 	auto arg2 = info[2]->ToObject();
 	if (!Nan::New(TimeZone::prototype)->HasInstance(arg2)) {
 		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
@@ -91,16 +89,16 @@ NAN_METHOD(format) {
 	}
 
 	std::string format = *Nan::Utf8String(info[0]);
-	TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(arg1);
 	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
-	std::string str = cctz::format(format, tp->value, tz->value);
+	auto tp = toTimePoint(arg1);
+	std::string str = cctz::format(format, tp, tz->value);
 
 	info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
 }
 
 NAN_METHOD(convert) {
 	if (info.Length() < 2) {
-		Nan::ThrowTypeError("Expected 2 arguments: timepoint/civilseconds, timezone");
+		Nan::ThrowTypeError("Expected 2 arguments: unix timestamp or civilseconds, timezone");
 		return;
 	}
 
@@ -112,43 +110,38 @@ NAN_METHOD(convert) {
 
 	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg1);
 
-	auto arg0 = info[0]->ToObject();
-	if (Nan::New(TimePoint::prototype)->HasInstance(arg0)) {
-		TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(arg0);
-		auto al = tz->value.lookup(tp->value);
+	if (info[0]->IsNumber()) {
+		auto tp = toTimePoint(info[0]->NumberValue());
+		auto al = tz->value.lookup(tp);
 
-		v8::Local<v8::Object> csObj = CivilSecond::NewInstance();
-		CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(csObj);
+		v8::Local<v8::Object> csObj = CivilTime::NewInstance();
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(csObj);
 		cs->value = al.cs;
 
 		info.GetReturnValue().Set(csObj);
 		return;
 	}
 
-	if (Nan::New(CivilSecond::prototype)->HasInstance(arg0)) {
-		CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(arg0);
+	auto arg0 = info[0]->ToObject();
+	if (Nan::New(CivilTime::prototype)->HasInstance(arg0)) {
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(arg0);
 		const cctz::time_zone::civil_lookup cl = tz->value.lookup(cs->value);
 
-		v8::Local<v8::Object> tpObj = TimePoint::NewInstance();
-		TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(tpObj);
-
 		if (cl.kind == cctz::time_zone::civil_lookup::SKIPPED) {
-			tp->value = cl.trans;
+			info.GetReturnValue().Set(toUnixTimestamp(cl.trans));
 		} else {
-			tp->value = cl.pre;
+			info.GetReturnValue().Set(toUnixTimestamp(cl.pre));
 		}
 
-		info.GetReturnValue().Set(tpObj);
 		return;
 	}
 
-	Nan::ThrowTypeError("first argument should be instance of TimePoint or CivilSecond");
+	Nan::ThrowTypeError("first argument should be unix timestamp or CivilTime");
 }
 
 NAN_MODULE_INIT(Init) {
-	TimePoint::Init(target);
 	TimeZone::Init(target);
-	CivilSecond::Init(target);
+	CivilTime::Init(target);
 
 	NAN_EXPORT(target, load_time_zone);
 	NAN_EXPORT(target, utc_time_zone);

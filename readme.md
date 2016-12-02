@@ -10,7 +10,7 @@
 const cctz = require('cctz');
 
 const lax = cctz.load_time_zone('America/Los_Angeles');
-const tp = cctz.convert(new cctz.CivilSecond(2015, 9, 22, 9), lax);
+const tp = cctz.convert(new cctz.CivilTime(2015, 9, 22, 9), lax);
 
 const nyc = cctz.load_time_zone('America/New_York');
 console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
@@ -34,52 +34,39 @@ Returns `UTC` TimeZone object.
 
 Parses `input` string according to `format` string (assuming `input` in `timezone`).
 
-Returns TimePoint object.
+Returns unix timestamp.
 
-#### cctz.format(format, timepoint, timezone)
+#### cctz.format(format, unix, timezone)
 
-Formats TimePoint `timepoint` object according to `format` in `timezone`.
+Formats unix timestamp `unix` object according to `format` in `timezone`.
 
 Returns string.
 
-#### cctz.convert(timepoint, timezone)
+#### cctz.convert(unix, timezone)
 
-Returns CivilSecond object from `timepoint` in `timezone`.
+Returns CivilTime object from unix timestamp in `timezone`.
 
 #### cctz.convert(civilsecond, timezone)
 
-Returns TimePoint object from `civilsecond` in `timezone`.
+Returns unix timestamp from `civilsecond` in `timezone`.
 
 
-### TimePoint
-
-Holder for [`std::chrono::time_point`](http://en.cppreference.com/w/cpp/chrono/time_point).
-
-#### TimePoint(unix)
-
-Creates TimePoint from Unix timestamp (in milliseconds).
-
-#### TimePoint.unix
-
-Returns Unix timestamp in milliseconds.
-
-
-### CivilSecond
+### CivilTime
 
 Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/civil_time.h#L22) with getters and setters for properties.
 
-#### CivilSecond(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0)
+#### CivilTime(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0)
 
-Creates CivilSecond object.
+Creates CivilTime object.
 
-##### CivilSecond.year
-##### CivilSecond.month
-##### CivilSecond.day
-##### CivilSecond.hour
-##### CivilSecond.minute
-##### CivilSecond.second
-##### CivilSecond.yearday (only getter)
-##### CivilSecond.weekday (only getter)
+##### CivilTime.year
+##### CivilTime.month
+##### CivilTime.day
+##### CivilTime.hour
+##### CivilTime.minute
+##### CivilTime.second
+##### CivilTime.yearday (only getter)
+##### CivilTime.weekday (only getter)
 
 
 ### TimeZone
@@ -90,7 +77,7 @@ Holder for [`cctz::time_zone`](https://github.com/google/cctz/blob/6a694a40f3770
 
 Same as `load_time_zone`.
 
-##### TimeZone.lookup(timepoint)
+##### TimeZone.lookup(unix)
 
 Returns [`cctz::absolute_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L60) object.
 
@@ -106,19 +93,19 @@ Name of TimeZone.
 ## Benchmarks
 
 ```
-Format Now      (baseline) x 3,159,444 ops/sec ±1.02% (84 runs sampled)
-Format Now   (cctz-format) x 682,804 ops/sec ±10.42% (63 runs sampled)
-Format Now   (cctz-concat) x 431,137 ops/sec ±6.08% (63 runs sampled)
-Format Now (moment-format) x 77,865 ops/sec ±6.04% (75 runs sampled)
-Format Now (moment-concat) x 113,597 ops/sec ±5.99% (77 runs sampled)
+Format Now      (baseline) x 3,099,085 ops/sec ±2.73% (83 runs sampled)
+Format Now   (cctz-format) x 1,326,945 ops/sec ±2.73% (80 runs sampled)
+Format Now   (cctz-concat) x 679,269 ops/sec ±1.27% (80 runs sampled)
+Format Now (moment-format) x 88,098 ops/sec ±2.08% (84 runs sampled)
+Format Now (moment-concat) x 118,912 ops/sec ±4.52% (76 runs sampled)
 
-Parse-Format    (baseline) x 562,212 ops/sec ±3.60% (80 runs sampled)
-Parse-Format        (cctz) x 497,784 ops/sec ±5.03% (79 runs sampled)
-Parse-Format      (moment) x 17,275 ops/sec ±9.55% (73 runs sampled)
+Parse-Format    (baseline) x 593,916 ops/sec ±1.72% (83 runs sampled)
+Parse-Format        (cctz) x 743,739 ops/sec ±1.79% (81 runs sampled)
+Parse-Format      (moment) x 20,709 ops/sec ±1.36% (85 runs sampled)
 
-Increment hour  (baseline) x 17,906 ops/sec ±3.99% (80 runs sampled)
-Increment hour      (cctz) x 5,504 ops/sec ±5.30% (81 runs sampled)
-Increment hour    (moment) x 604 ops/sec ±1.97% (83 runs sampled)
+Increment hour  (baseline) x 18,841 ops/sec ±1.15% (89 runs sampled)
+Increment hour      (cctz) x 5,449 ops/sec ±2.95% (81 runs sampled)
+Increment hour    (moment) x 609 ops/sec ±1.33% (83 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.

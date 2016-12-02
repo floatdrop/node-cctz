@@ -1,15 +1,15 @@
 #include <node.h>
 #include "civiltime.h"
 
-CivilSecond::CivilSecond() {};
-CivilSecond::~CivilSecond() {};
+CivilTime::CivilTime() {};
+CivilTime::~CivilTime() {};
 
-Nan::Persistent<v8::Function> CivilSecond::constructor;
-Nan::Persistent<v8::FunctionTemplate> CivilSecond::prototype;
+Nan::Persistent<v8::Function> CivilTime::constructor;
+Nan::Persistent<v8::FunctionTemplate> CivilTime::prototype;
 
-void CivilSecond::Init(v8::Local<v8::Object> target) {
+void CivilTime::Init(v8::Local<v8::Object> target) {
 	Nan::HandleScope scope;
-	auto name = Nan::New("CivilSecond").ToLocalChecked();
+	auto name = Nan::New("CivilTime").ToLocalChecked();
 
 	// Prepare constructor template
 	v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
@@ -32,74 +32,74 @@ void CivilSecond::Init(v8::Local<v8::Object> target) {
 	target->Set(name, tpl->GetFunction());
 }
 
-NAN_GETTER(CivilSecond::GetYear) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetYear) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cs->value.year()));
 }
 
-NAN_SETTER(CivilSecond::SetYear) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_SETTER(CivilTime::SetYear) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(value->ToInteger()->Value(), d.month(), d.day(), d.hour(), d.minute(), d.second());
 }
 
-NAN_GETTER(CivilSecond::GetMonth) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetMonth) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cs->value.month()));
 }
 
-NAN_SETTER(CivilSecond::SetMonth) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_SETTER(CivilTime::SetMonth) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), value->ToInteger()->Value(), d.day(), d.hour(), d.minute(), d.second());
 }
 
-NAN_GETTER(CivilSecond::GetDay) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetDay) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cs->value.day()));
 }
 
-NAN_SETTER(CivilSecond::SetDay) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_SETTER(CivilTime::SetDay) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), value->ToInteger()->Value(), d.hour(), d.minute(), d.second());
 }
 
-NAN_GETTER(CivilSecond::GetHour) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetHour) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cs->value.hour()));
 }
 
-NAN_SETTER(CivilSecond::SetHour) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_SETTER(CivilTime::SetHour) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), d.day(), value->ToInteger()->Value(), d.minute(), d.second());
 }
 
-NAN_GETTER(CivilSecond::GetMinute) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetMinute) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cs->value.minute()));
 }
 
-NAN_SETTER(CivilSecond::SetMinute) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_SETTER(CivilTime::SetMinute) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), d.day(), d.hour(), value->ToInteger()->Value(), d.second());
 }
 
-NAN_GETTER(CivilSecond::GetSecond) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetSecond) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cs->value.second()));
 }
 
-NAN_SETTER(CivilSecond::SetSecond) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_SETTER(CivilTime::SetSecond) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto& d = cs->value;
 	cs->value = cctz::civil_second(d.year(), d.month(), d.day(), d.hour(), d.minute(), value->ToInteger()->Value());
 }
 
-NAN_GETTER(CivilSecond::GetWeekday) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetWeekday) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	auto wd = cctz::get_weekday(cctz::civil_day(cs->value));
 	switch (wd) {
 		case cctz::weekday::monday:
@@ -119,14 +119,14 @@ NAN_GETTER(CivilSecond::GetWeekday) {
 	}
 }
 
-NAN_GETTER(CivilSecond::GetYearday) {
-	CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(info.This());
+NAN_GETTER(CivilTime::GetYearday) {
+	CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info.This());
 	info.GetReturnValue().Set(Nan::New<v8::Number>(cctz::get_yearday(cctz::civil_day(cs->value))));
 }
 
-NAN_METHOD(CivilSecond::New) {
+NAN_METHOD(CivilTime::New) {
 	if (!info.IsConstructCall()) {
-		return Nan::ThrowTypeError("CivilSecond constructor cannot be invoked without 'new'");
+		return Nan::ThrowTypeError("CivilTime constructor cannot be invoked without 'new'");
 	}
 
 	auto year   = (info[0]->IsUndefined() || !info[0]->IsNumber()) ? 0 : info[0]->NumberValue();
@@ -136,14 +136,14 @@ NAN_METHOD(CivilSecond::New) {
 	auto minute = (info[4]->IsUndefined() || !info[4]->IsNumber()) ? 0 : info[4]->NumberValue();
 	auto second = (info[5]->IsUndefined() || !info[5]->IsNumber()) ? 0 : info[5]->NumberValue();
 
-	CivilSecond* obj = new CivilSecond();
+	CivilTime* obj = new CivilTime();
 	obj->value = cctz::civil_second(year, month, day, hour, minute, second);
 
 	obj->Wrap(info.This());
 	info.GetReturnValue().Set(info.This());
 }
 
-v8::Local<v8::Object> CivilSecond::NewInstance() {
+v8::Local<v8::Object> CivilTime::NewInstance() {
 	v8::Local<v8::Function> cons = Nan::New(constructor);
 	return Nan::NewInstance(cons).ToLocalChecked();
 }

@@ -1,7 +1,8 @@
 #include <node.h>
+#include <chrono>
 #include "timezone.h"
-#include "timepoint.h"
 #include "civiltime.h"
+#include "util.h"
 
 TimeZone::TimeZone() {};
 TimeZone::~TimeZone() {};
@@ -31,15 +32,37 @@ void TimeZone::Init(v8::Local<v8::Object> target) {
 NAN_METHOD(TimeZone::Lookup) {
 	TimeZone* tz = ObjectWrap::Unwrap<TimeZone>(info.Holder());
 
-	if (info.Length() < 1 || !info[0]->IsObject()) {
-		Nan::ThrowTypeError("One argument required: TimePoint or CivilTime");
+	if (info.Length() < 1) {
+		Nan::ThrowTypeError("One argument required: unix timestamp or CivilTime");
+		return;
+	}
+
+	if (info[0]->IsNumber()) {
+		double unix = info[0]->NumberValue();
+
+		auto tp = toTimePoint(unix);
+		auto lookup = tz->value.lookup(tp);
+
+		// TODO: Move this to AbsoluteLookup class
+		v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+		obj->Set(Nan::New("offset").ToLocalChecked(), Nan::New<v8::Number>(lookup.offset));
+		obj->Set(Nan::New("is_dst").ToLocalChecked(), Nan::New<v8::Boolean>(lookup.is_dst));
+		obj->Set(Nan::New("abbr").ToLocalChecked(), Nan::New<v8::String>(lookup.abbr).ToLocalChecked());
+
+		v8::Local<v8::Object> csObj = CivilTime::NewInstance();
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(csObj);
+		cs->value = lookup.cs;
+
+		obj->Set(Nan::New("cs").ToLocalChecked(), csObj);
+
+		info.GetReturnValue().Set(obj);
 		return;
 	}
 
 	auto arg0 = info[0]->ToObject();
 
-	if (Nan::New(CivilSecond::prototype)->HasInstance(arg0)) {
-		CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(arg0);
+	if (Nan::New(CivilTime::prototype)->HasInstance(arg0)) {
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(arg0);
 		auto lookup = tz->value.lookup(cs->value);
 
 		// TODO: Move this to CivilLookup class
@@ -52,46 +75,15 @@ NAN_METHOD(TimeZone::Lookup) {
 			obj->Set(Nan::New("kind").ToLocalChecked(), Nan::New("REPEATED").ToLocalChecked());
 		}
 
-		v8::Local<v8::Object> preObj = TimePoint::NewInstance();
-		TimePoint* pre = Nan::ObjectWrap::Unwrap<TimePoint>(preObj);
-		pre->value = lookup.pre;
-		obj->Set(Nan::New("pre").ToLocalChecked(), preObj);
-
-		v8::Local<v8::Object> transObj = TimePoint::NewInstance();
-		TimePoint* trans = Nan::ObjectWrap::Unwrap<TimePoint>(transObj);
-		trans->value = lookup.trans;
-		obj->Set(Nan::New("trans").ToLocalChecked(), transObj);
-
-		v8::Local<v8::Object> postObj = TimePoint::NewInstance();
-		TimePoint* post = Nan::ObjectWrap::Unwrap<TimePoint>(postObj);
-		post->value = lookup.post;
-		obj->Set(Nan::New("post").ToLocalChecked(), postObj);
+		obj->Set(Nan::New("pre").ToLocalChecked(), Nan::New(toUnixTimestamp(lookup.pre)));
+		obj->Set(Nan::New("trans").ToLocalChecked(), Nan::New(toUnixTimestamp(lookup.trans)));
+		obj->Set(Nan::New("post").ToLocalChecked(), Nan::New(toUnixTimestamp(lookup.post)));
 
 		info.GetReturnValue().Set(obj);
 		return;
 	}
 
-	if (Nan::New(TimePoint::prototype)->HasInstance(arg0)) {
-		TimePoint* tp = Nan::ObjectWrap::Unwrap<TimePoint>(arg0);
-		auto lookup = tz->value.lookup(tp->value);
-
-		// TODO: Move this to AbsoluteLookup class
-		v8::Local<v8::Object> obj = Nan::New<v8::Object>();
-		obj->Set(Nan::New("offset").ToLocalChecked(), Nan::New<v8::Number>(lookup.offset));
-		obj->Set(Nan::New("is_dst").ToLocalChecked(), Nan::New<v8::Boolean>(lookup.is_dst));
-		obj->Set(Nan::New("abbr").ToLocalChecked(), Nan::New<v8::String>(lookup.abbr).ToLocalChecked());
-
-		v8::Local<v8::Object> csObj = CivilSecond::NewInstance();
-		CivilSecond* cs = Nan::ObjectWrap::Unwrap<CivilSecond>(csObj);
-		cs->value = lookup.cs;
-
-		obj->Set(Nan::New("cs").ToLocalChecked(), csObj);
-
-		info.GetReturnValue().Set(obj);
-		return;
-	}
-
-	Nan::ThrowTypeError("Expected TimePoint or CivilTime as argument");
+	Nan::ThrowTypeError("Expected unix timestamp or CivilTime as argument");
 }
 
 NAN_GETTER(TimeZone::GetName) {

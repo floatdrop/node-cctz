@@ -5,7 +5,7 @@
 #include <chrono>
 #include "civil_time.h"
 
-class CivilSecond : public Nan::ObjectWrap {
+class CivilTime : public Nan::ObjectWrap {
 public:
 	static void Init(v8::Local<v8::Object> target);
 	static v8::Local<v8::Object> NewInstance();
@@ -14,8 +14,8 @@ public:
 	cctz::civil_second value;
 
 private:
-	explicit CivilSecond();
-	~CivilSecond();
+	explicit CivilTime();
+	~CivilTime();
 
 	static Nan::Persistent<v8::Function> constructor;
 	static NAN_METHOD(New);

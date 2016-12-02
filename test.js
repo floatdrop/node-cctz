@@ -40,26 +40,20 @@ test('CivilTime has getters and setters', t => {
 	t.is(ct.cs.year, 2016);
 });
 
-test('TimePoint has unix timestamp constructor', t => {
-	const unix = new Date().getTime();
-	const tp = new cctz.TimePoint(unix);
-	t.is(tp.unix, unix);
-});
-
 test('convert shortcut is working', t => {
-	const now = new Date().getTime();
+	const now = Date.now() / 1000;
 	const tz = cctz.load_time_zone('America/New_York');
-	const cs = cctz.convert(new cctz.TimePoint(now), tz);
-	t.is(cs.year, new Date(now).getFullYear());
+	const cs = cctz.convert(now, tz);
+	t.is(cs.year, new Date(now * 1000).getFullYear());
 
 	const tz2 = cctz.convert(cs, tz);
-	// Since CivilSeconds does not contains milliseconds
-	t.is(tz2.unix, Math.floor(now / 1000) * 1000);
+	// Since CivilTime does not contains milliseconds
+	t.is(tz2, Math.floor(now));
 });
 
 test('example1.cc works', t => {
 	const lax = cctz.load_time_zone('America/Los_Angeles');
-	const tp = cctz.convert(new cctz.CivilSecond(2015, 9, 22, 9), lax);
+	const tp = cctz.convert(new cctz.CivilTime(2015, 9, 22, 9), lax);
 
 	const nyc = cctz.load_time_zone('America/New_York');
 	const str = cctz.format('Talk starts at %T %z (%Z)', tp, nyc);
@@ -68,8 +62,8 @@ test('example1.cc works', t => {
 });
 
 test('normalization works', t => {
-	const now = new cctz.CivilSecond(2016, 5);
-	const endOfMonth = new cctz.CivilSecond(now.year, now.month + 1, -1);
+	const now = new cctz.CivilTime(2016, 5);
+	const endOfMonth = new cctz.CivilTime(now.year, now.month + 1, -1);
 
 	t.is(now.year, endOfMonth.year);
 	t.is(now.month, endOfMonth.month);
