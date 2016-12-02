@@ -35,6 +35,8 @@ Returns unix timestamp.
 
 Formats unix timestamp `unix` object according to `format` in `timezone`.
 
+See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for format syntax.
+
 Returns string.
 
 #### convert(unix, timezone)
