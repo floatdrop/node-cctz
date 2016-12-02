@@ -67,7 +67,7 @@ NAN_METHOD(parse) {
 
 NAN_METHOD(format) {
 	if (info.Length() < 3) {
-		Nan::ThrowTypeError("Expected 3 arguments: format, unix timestamp, timezone");
+		Nan::ThrowTypeError("Expected 3 arguments: format, unix timestamp or CilivTime, timezone");
 		return;
 	}
 
@@ -75,25 +75,33 @@ NAN_METHOD(format) {
 		Nan::ThrowTypeError("format must be a string");
 		return;
 	}
+	std::string format = *Nan::Utf8String(info[0]);
 
-	if (!info[1]->IsNumber()) {
-		Nan::ThrowTypeError("unix timestamp must be a Number");
-		return;
-	}
-
-	auto arg1 = info[1]->NumberValue();
 	auto arg2 = info[2]->ToObject();
 	if (!Nan::New(TimeZone::prototype)->HasInstance(arg2)) {
 		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
 		return;
 	}
-
-	std::string format = *Nan::Utf8String(info[0]);
 	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(arg2);
-	auto tp = toTimePoint(arg1);
-	std::string str = cctz::format(format, tp, tz->value);
 
-	info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
+	if (info[1]->IsNumber()) {
+		auto arg1 = info[1]->NumberValue();
+		auto tp = toTimePoint(arg1);
+		std::string str = cctz::format(format, tp, tz->value);
+		info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
+		return;
+	}
+
+	if (info[1]->IsObject() && Nan::New(CivilTime::prototype)->HasInstance(info[1]->ToObject())) {
+		auto arg1 = info[1]->ToObject();
+		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(arg1);
+
+		std::string str = cctz::format(format, cctz::convert(cs->value, tz->value), tz->value);
+		info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
+		return;
+	}
+
+	Nan::ThrowTypeError("second argument must be unix timestamp or CivilTime");
 }
 
 NAN_METHOD(convert) {

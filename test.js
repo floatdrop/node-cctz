@@ -46,9 +46,20 @@ test('convert shortcut is working', t => {
 	const cs = cctz.convert(now, tz);
 	t.is(cs.year, new Date(now * 1000).getFullYear());
 
-	const tz2 = cctz.convert(cs, tz);
+	const tp = cctz.convert(cs, tz);
 	// Since CivilTime does not contains milliseconds
-	t.is(tz2, Math.floor(now));
+	t.is(tp, Math.floor(now));
+});
+
+test('format shortcut is working', t => {
+	const now = Date.now() / 1000;
+	const tz = cctz.load_time_zone('America/New_York');
+	const cs = cctz.convert(now, tz);
+
+	const a = cctz.format('%Y-%m-%d %H:%M:%S', now, tz);
+	const b = cctz.format('%Y-%m-%d %H:%M:%S', cs, tz);
+
+	t.is(a, b);
 });
 
 test('example1.cc works', t => {
