@@ -75,7 +75,7 @@ Returns new CivilTime object with start of month.
 
 Returns new CivilTime object with start of day.
 
-#### CivilTime.clone()
+##### CivilTime.clone()
 
 Returns cloned CivilTime object.
 
