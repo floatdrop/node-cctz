@@ -2,6 +2,7 @@
 #include <chrono>
 #include <nan.h>
 #include <unordered_map>
+#include <memory>
 
 #include "civil_time.h"
 #include "time_zone.h"
