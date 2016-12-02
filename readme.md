@@ -60,13 +60,13 @@ Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6a694a40f3
 Creates CivilTime object.
 
 ##### CivilTime.year
-##### CivilTime.month
-##### CivilTime.day
-##### CivilTime.hour
-##### CivilTime.minute
-##### CivilTime.second
-##### CivilTime.yearday (only getter)
-##### CivilTime.weekday (only getter)
+##### CivilTime.month [1:12]
+##### CivilTime.day [1:31]
+##### CivilTime.hour [0:23]
+##### CivilTime.minute [0:59]
+##### CivilTime.second [0:59]
+##### CivilTime.yearday (only getter) [1:356]
+##### CivilTime.weekday (only getter) [0:6]
 
 
 ### TimeZone
