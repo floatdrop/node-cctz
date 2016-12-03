@@ -107,17 +107,17 @@ Name of TimeZone.
 
 ```
 Format          (baseline) x 2,866,904 ops/sec ±6.22% (77 runs sampled)
-Format              (cctz) x 1,071,124 ops/sec ±2.97% (81 runs sampled)
-Format            (moment) x 79,488 ops/sec ±3.57% (79 runs sampled)
+                    (cctz) x 1,071,124 ops/sec ±2.97% (81 runs sampled)
+                  (moment) x    79,488 ops/sec ±3.57% (79 runs sampled)
 
 Parse           (baseline) x 2,099,187 ops/sec ±3.43% (83 runs sampled)
-Parse               (cctz) x 1,165,998 ops/sec ±7.08% (73 runs sampled)
-Parse             (moment) x 18,440 ops/sec ±2.19% (82 runs sampled)
+                    (cctz) x 1,165,998 ops/sec ±7.08% (73 runs sampled)
+                  (moment) x    18,440 ops/sec ±2.19% (82 runs sampled)
 
 Add hour        (baseline) x 13,995,323 ops/sec ±2.34% (85 runs sampled)
-Add hour       (cctz-unix) x 32,914,870 ops/sec ±3.83% (81 runs sampled)
-Add hour      (cctz-civil) x 5,623,556 ops/sec ±1.53% (84 runs sampled)
-Add hour          (moment) x 566,368 ops/sec ±2.98% (81 runs sampled)
+               (cctz-unix) x 32,914,870 ops/sec ±3.83% (81 runs sampled)
+              (cctz-civil) x  5,623,556 ops/sec ±1.53% (84 runs sampled)
+                  (moment) x    566,368 ops/sec ±2.98% (81 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
