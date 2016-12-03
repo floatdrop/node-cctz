@@ -163,11 +163,7 @@ Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6a694a40f3770
 Name of TimeZone.
 
 
-## Tips
-
-#### How to create unix timestamp
-
-This is extremly simple:
+## Creating Unix timestamp
 
 ```js
 const timestamp = new Date() / 1000;
