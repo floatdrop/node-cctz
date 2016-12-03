@@ -4,6 +4,24 @@
 
 [CCTZ](https://github.com/google/cctz) is a C++ library for translating between absolute and civil times using the rules of a time zone.
 
+
+## Install
+
+You will need C++11 compatible compiler to build this binding. For most systems this will work:
+
+```
+$ npm install --save cctz
+```
+
+If you have Ubuntu 12.04, then install `clang-3.4` and set-up environment:
+
+```
+$ sudo apt-get install clang-3.4
+$ export CXX=clang++
+$ export npm_config_clang=1
+```
+
+
 ## Usage
 
 ```js
@@ -17,6 +35,7 @@ console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
 // => Talk starts at 12:00:00 -0400 (EDT)
 ```
+
 
 ## API
 
