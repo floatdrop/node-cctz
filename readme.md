@@ -172,7 +172,7 @@ Name of TimeZone.
 This is extremly simple:
 
 ```js
-const timestamp = new Date() / 1000
+const timestamp = new Date() / 1000;
 ```
 
 All methods expect unix timestamp with fractional seconds, so there is no need for `Math.floor`.
