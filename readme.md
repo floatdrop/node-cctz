@@ -106,19 +106,18 @@ Name of TimeZone.
 ## Benchmarks
 
 ```
-Format Now      (baseline) x 3,099,085 ops/sec ±2.73% (83 runs sampled)
-Format Now   (cctz-format) x 1,326,945 ops/sec ±2.73% (80 runs sampled)
-Format Now   (cctz-concat) x 679,269 ops/sec ±1.27% (80 runs sampled)
-Format Now (moment-format) x 88,098 ops/sec ±2.08% (84 runs sampled)
-Format Now (moment-concat) x 118,912 ops/sec ±4.52% (76 runs sampled)
+Format          (baseline) x 2,866,904 ops/sec ±6.22% (77 runs sampled)
+Format              (cctz) x 1,071,124 ops/sec ±2.97% (81 runs sampled)
+Format            (moment) x 79,488 ops/sec ±3.57% (79 runs sampled)
 
-Parse-Format    (baseline) x 593,916 ops/sec ±1.72% (83 runs sampled)
-Parse-Format        (cctz) x 743,739 ops/sec ±1.79% (81 runs sampled)
-Parse-Format      (moment) x 20,709 ops/sec ±1.36% (85 runs sampled)
+Parse           (baseline) x 2,099,187 ops/sec ±3.43% (83 runs sampled)
+Parse               (cctz) x 1,165,998 ops/sec ±7.08% (73 runs sampled)
+Parse             (moment) x 18,440 ops/sec ±2.19% (82 runs sampled)
 
-Increment hour  (baseline) x 18,841 ops/sec ±1.15% (89 runs sampled)
-Increment hour      (cctz) x 5,449 ops/sec ±2.95% (81 runs sampled)
-Increment hour    (moment) x 609 ops/sec ±1.33% (83 runs sampled)
+Add hour        (baseline) x 13,995,323 ops/sec ±2.34% (85 runs sampled)
+Add hour       (cctz-unix) x 32,914,870 ops/sec ±3.83% (81 runs sampled)
+Add hour      (cctz-civil) x 5,623,556 ops/sec ±1.53% (84 runs sampled)
+Add hour          (moment) x 566,368 ops/sec ±2.98% (81 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
