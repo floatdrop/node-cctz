@@ -60,7 +60,7 @@ Returns unix timestamp or `undefined` if parsing failed.
 
 Type: `string`
 
-Format of `input` argument. See [strptime](http://www.cplusplus.com/reference/ctime/strptime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for syntax.
+Format of `input` argument. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#232) sources for syntax.
 
 ##### input
 
