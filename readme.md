@@ -1,7 +1,5 @@
 # node-cctz [![Build Status](https://travis-ci.org/floatdrop/node-cctz.svg?branch=master)](https://travis-ci.org/floatdrop/node-cctz)
 
-> Blazingly fast timezone manipulations ⚡️
-
 [CCTZ](https://github.com/google/cctz) is a C++ library for translating between absolute and civil times using the rules of a time zone.
 
 
