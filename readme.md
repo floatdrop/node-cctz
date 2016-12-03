@@ -9,10 +9,10 @@
 ```js
 const cctz = require('cctz');
 
-const lax = cctz.load_time_zone('America/Los_Angeles');
+const lax = cctz.tz('America/Los_Angeles');
 const tp = cctz.convert(new cctz.CivilTime(2015, 9, 22, 9), lax);
 
-const nyc = cctz.load_time_zone('America/New_York');
+const nyc = cctz.tz('America/New_York');
 console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
 // => Talk starts at 12:00:00 -0400 (EDT)
@@ -20,9 +20,11 @@ console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
 ## API
 
-### load_time_zone(name)
+### tz(name)
 
-> Use this method instead `new TimeZone` – because it caches `TimeZone` objects inside.
+> Alias for `cctz.load_time_zone`
+
+Use this method instead `new TimeZone` – because it caches `TimeZone` objects inside.
 
 Returns `TimeZone` object.
 
