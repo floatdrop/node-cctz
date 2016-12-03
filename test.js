@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 import test from 'ava';
-import cctz, {CivilTime, TimeZone, load_time_zone, convert, parse, format} from './';
+import {CivilTime, TimeZone, tz, convert, parse, format} from './';
 
 test('startOf...', t => {
 	const time = new CivilTime(2015, 2, 2, 2, 2, 2);
@@ -31,7 +31,7 @@ test('startOf...', t => {
 });
 
 test('undefined in arguments', t => {
-	t.throws(() => load_time_zone(undefined));
+	t.throws(() => tz(undefined));
 	t.throws(() => parse(undefined));
 	t.throws(() => parse('', undefined));
 	t.throws(() => parse('', 1, undefined));
@@ -42,22 +42,20 @@ test('undefined in arguments', t => {
 	t.throws(() => convert('', undefined));
 	t.throws(() => convert(new CivilTime(), undefined));
 	t.throws(() => new TimeZone(undefined));
-
-	const tz = new TimeZone('UTC');
-	t.throws(() => tz.lookup(undefined));
+	t.throws(() => (new TimeZone('UTC')).lookup(undefined));
 });
 
 test('simple parsing -> format cycle works', t => {
-	const tz = load_time_zone('America/New_York');
-	const time = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
-	const str = format('%Y-%m-%d %H:%M:%S', time, tz);
+	const nyc = tz('America/New_York');
+	const time = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc);
+	const str = format('%Y-%m-%d %H:%M:%S', time, nyc);
 	t.is(str, '2015-09-22 09:35:12');
 });
 
 test('CivilTime has getters', t => {
-	const tz = load_time_zone('America/New_York');
-	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
-	const ct = tz.lookup(tp);
+	const nyc = tz('America/New_York');
+	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc);
+	const ct = nyc.lookup(tp);
 	t.is(ct.cs.year, 2015);
 	t.is(ct.cs.month, 9);
 	t.is(ct.cs.day, 22);
@@ -73,9 +71,9 @@ test('CivilTime has getters', t => {
 });
 
 test('CivilTime has setters', t => {
-	const tz = load_time_zone('America/New_York');
-	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
-	const ct = tz.lookup(tp);
+	const nyc = tz('America/New_York');
+	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc);
+	const ct = nyc.lookup(tp);
 
 	const get = ct.cs.year + 1;
 	t.is(get, 2016);
@@ -88,31 +86,31 @@ test('CivilTime has setters', t => {
 
 test('convert shortcut is working', t => {
 	const now = Date.now() / 1000;
-	const tz = load_time_zone('America/New_York');
-	const cs = convert(now, tz);
+	const nyc = tz('America/New_York');
+	const cs = convert(now, nyc);
 	t.is(cs.year, new Date(now * 1000).getFullYear());
 
-	const tp = convert(cs, tz);
+	const tp = convert(cs, nyc);
 	// Since CivilTime does not contains milliseconds
 	t.is(tp, Math.floor(now));
 });
 
 test('format shortcut is working', t => {
 	const now = Date.now() / 1000;
-	const tz = load_time_zone('America/New_York');
-	const cs = convert(now, tz);
+	const nyc = tz('America/New_York');
+	const cs = convert(now, nyc);
 
-	const a = format('%Y-%m-%d %H:%M:%S', now, tz);
-	const b = format('%Y-%m-%d %H:%M:%S', cs, tz);
+	const a = format('%Y-%m-%d %H:%M:%S', now, nyc);
+	const b = format('%Y-%m-%d %H:%M:%S', cs, nyc);
 
 	t.is(a, b);
 });
 
 test('example1.cc works', t => {
-	const lax = load_time_zone('America/Los_Angeles');
+	const lax = tz('America/Los_Angeles');
 	const tp = convert(new CivilTime(2015, 9, 22, 9), lax);
 
-	const nyc = load_time_zone('America/New_York');
+	const nyc = tz('America/New_York');
 	const str = format('Talk starts at %T %z (%Z)', tp, nyc);
 
 	t.is(str, 'Talk starts at 12:00:00 -0400 (EDT)');
@@ -134,11 +132,4 @@ test('CivilTime clone works', t => {
 
 	t.is(now.day, 1);
 	t.is(now.day + 1, tomorrow.day);
-});
-
-test('cctz.tz shortcut works', t => {
-	const tz = cctz.tz('Asia/Yekaterinburg');
-
-	t.truthy(tz instanceof TimeZone);
-	t.is(tz.name, 'Asia/Yekaterinburg');
 });

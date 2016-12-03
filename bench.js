@@ -8,7 +8,7 @@ const suite = new Benchmark.Suite();
 
 let iunix = new Date() / 1000;
 let idate = new Date();
-let icctz = cctz.convert(new Date() / 1000, cctz.load_time_zone('UTC'));
+let icctz = cctz.convert(new Date() / 1000, cctz.tz('UTC'));
 let immtz = moment().tz('America/New_York');
 
 suite
@@ -17,7 +17,7 @@ suite
 		date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
 	})
 	.add('Format              (cctz)', () => {
-		const tz = cctz.load_time_zone('America/New_York');
+		const tz = cctz.tz('America/New_York');
 		cctz.format('%Y-%m-%d', Date.now() / 1000, tz);
 	})
 	.add('Format            (moment)', () => {
@@ -27,7 +27,7 @@ suite
 		new Date('2015-09-22 09:35:12 GMT+0300');
 	})
 	.add('Parse               (cctz)', () => {
-		const tz = cctz.load_time_zone('America/New_York');
+		const tz = cctz.tz('America/New_York');
 		cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
 	})
 	.add('Parse             (moment)', () => {
