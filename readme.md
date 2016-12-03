@@ -1,6 +1,6 @@
 # node-cctz [![Build Status](https://travis-ci.org/floatdrop/node-cctz.svg?branch=master)](https://travis-ci.org/floatdrop/node-cctz)
 
-> Because sometimes Moment.JS is slow
+> Blazingly fast timezone manipulations ⚡️
 
 [CCTZ](https://github.com/google/cctz) is a C++ library for translating between absolute and civil times using the rules of a time zone.
 
@@ -20,32 +20,73 @@ console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
 
 ## API
 
-#### load_time_zone(name)
+### load_time_zone(name)
 
-Returns TimeZone object for time zone with `name` from `/usr/share/zoneinfo`.
-It is recomended to use this method, because it maintain internal cache of V8 objects.
+> Use this method instead `new TimeZone` – because it caches `TimeZone` objects inside.
 
-#### parse(format, input, timezone)
+Returns `TimeZone` object.
+
+##### name
+Type: `string`
+
+Timezone name, that should be loaded (from `/usr/share/zoneinfo`).
+
+### parse(format, input, timezone)
 
 Parses `input` string according to `format` string (assuming `input` in `timezone`).
 
-Returns unix timestamp.
+Returns unix timestamp or `undefined` if parsing failed.
 
-#### format(format, unix, timezone)
+##### format
 
-Formats unix timestamp `unix` object according to `format` in `timezone`.
+Type: `string`
 
-See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for format syntax.
+Format of `input` argument. See [strptime](http://www.cplusplus.com/reference/ctime/strptime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for syntax.
 
-Returns string.
+##### input
 
-#### convert(unix, timezone)
+Type: `string`
 
-Returns CivilTime object from unix timestamp in `timezone`.
+Input string to parse.
 
-#### convert(civiltime, timezone)
+### format(format, unix, timezone)
 
-Returns unix timestamp from `civiltime` in `timezone`.
+Returns formatted unix timestamp according to timezone.
+
+##### format
+
+Type: `string`
+
+Format of output. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for syntax.
+
+##### unix
+
+Type: `number`
+
+Unix timestamp in seconds (can have fractional part).
+
+##### timezone
+
+Type: `TimeZone`
+
+TimeZone objcet, that represents target timezone for formatting.
+
+### convert(time, timezone)
+
+Converts `CivilTime` to unix timestamp and vice versa.
+
+##### time
+
+Type: `CivilTime` or `number`
+
+If `time` is `CivilTime`, then method returns Unix timestamp (without fractional part).
+Otherwise returns `CivilTime`.
+
+##### timezone
+
+Type: `TimeZone`
+
+TimeZone objcet, that represents target timezone for converting.
 
 
 ### CivilTime
@@ -101,6 +142,19 @@ Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6a694a40f3770
 ##### TimeZone.name
 
 Name of TimeZone.
+
+
+## Tips
+
+#### How to create unix timestamp
+
+This is extremly simple:
+
+```js
+const timestamp = new Date() / 1000
+```
+
+All methods expect unix timestamp with fractional seconds, so there is no need for `Math.floor`.
 
 
 ## Benchmarks

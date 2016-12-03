@@ -1,7 +1,7 @@
 {
   "name": "cctz",
   "version": "1.0.1",
-  "description": "Google CCTZ binding for Node.JS",
+  "description": "Blazingly fast timezone manipulations ⚡️",
   "main": "index.js",
   "scripts": {
     "bench": "node bench",
