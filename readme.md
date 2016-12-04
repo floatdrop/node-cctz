@@ -48,7 +48,7 @@ Returns `TimeZone` object.
 ##### name
 Type: `string`
 
-Timezone name, that should be loaded (from `/usr/share/zoneinfo`).
+Timezone name, that should be loaded from `/usr/share/zoneinfo`.
 
 ### parse(format, input, [timezone])
 
