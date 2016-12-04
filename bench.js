@@ -24,15 +24,13 @@ suite
 		moment.tz('America/New_York').format('YYYY-MM-DD');
 	})
 	.add('Parse           (baseline)', () => {
-		new Date('2015-09-22 09:35:12 GMT+0300');
+		new Date('2015-09-22 09:35:12+03:00') / 1000;
 	})
 	.add('Parse               (cctz)', () => {
-		const tz = cctz.tz('America/New_York');
-		cctz.parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', tz);
+		cctz.parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12+03:00');
 	})
 	.add('Parse             (moment)', () => {
-		const date = moment.tz('2015-09-22 09:35:12', 'America/New_York');
-		date.format('YYYY-MM-DD hh-mm-ss');
+		moment('2015-09-22 09:35:12+03:00').unix();
 	})
 	.add('Add hour        (baseline)', () => {
 		idate.setTime(idate.getTime() + (60 * 60 * 1000));

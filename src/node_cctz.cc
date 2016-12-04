@@ -37,8 +37,8 @@ NAN_METHOD(load_time_zone) {
 }
 
 NAN_METHOD(parse) {
-	if (info.Length() < 3) {
-		Nan::ThrowTypeError("Expected 3 arguments: format, input, timezone");
+	if (info.Length() < 2) {
+		Nan::ThrowTypeError("Expected 2 arguments: format, input");
 		return;
 	}
 
@@ -52,17 +52,24 @@ NAN_METHOD(parse) {
 		return;
 	}
 
-	if (!info[2]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
-		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
-		return;
+	cctz::time_zone tz;
+
+	if (info.Length() > 2 && !info[2]->IsUndefined()) {
+		if (!info[2]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
+			Nan::ThrowTypeError("timezone must be an instance of TimeZone");
+			return;
+		}
+		TimeZone* tzObj = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
+		tz = tzObj->value;
+	} else {
+		tz = cctz::utc_time_zone();
 	}
 
 	std::string format = *Nan::Utf8String(info[0]);
 	std::string input = *Nan::Utf8String(info[1]);
 
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
 	std::chrono::system_clock::time_point tp;
-	bool parsed = cctz::parse(format, input, tz->value, &tp);
+	bool parsed = cctz::parse(format, input, tz, &tp);
 
 	if (!parsed) {
 		return;

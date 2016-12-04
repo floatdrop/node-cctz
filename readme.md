@@ -50,7 +50,7 @@ Type: `string`
 
 Timezone name, that should be loaded (from `/usr/share/zoneinfo`).
 
-### parse(format, input, timezone)
+### parse(format, input, [timezone])
 
 Parses `input` string according to `format` string (assuming `input` in `timezone`).
 
@@ -67,6 +67,17 @@ Format of `input` argument. See [strftime](http://www.cplusplus.com/reference/ct
 Type: `string`
 
 Input string to parse.
+
+##### timezone
+
+Type: `TimeZone`<br>
+Default: Timezone from `input` or UTC
+
+Timezone, that should be used in parse. Timezone could be part of input:
+
+```js
+cctz.parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12+03:00');
+```
 
 ### format(format, unix, timezone)
 

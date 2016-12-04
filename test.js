@@ -34,7 +34,6 @@ test('undefined in arguments', t => {
 	t.throws(() => tz(undefined));
 	t.throws(() => parse(undefined));
 	t.throws(() => parse('', undefined));
-	t.throws(() => parse('', 1, undefined));
 	t.throws(() => format(undefined));
 	t.throws(() => format('', undefined));
 	t.throws(() => format('', 1, undefined));
@@ -45,17 +44,34 @@ test('undefined in arguments', t => {
 	t.throws(() => (new TimeZone('UTC')).lookup(undefined));
 });
 
-test('simple parsing -> format cycle works', t => {
+test('parse', t => {
 	const nyc = tz('America/New_York');
-	const time = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc);
-	const str = format('%Y-%m-%d %H:%M:%S', time, nyc);
-	t.is(str, '2015-09-22 09:35:12');
+	t.is(parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12'), 1442914512);
+	t.is(parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc), 1442928912);
+	t.is(parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12-0400'), 1442928912);
+});
+
+test('format', t => {
+	const nyc = tz('America/New_York');
+	t.is(format('%Y-%m-%d %H:%M:%S', 1442928912, nyc), '2015-09-22 09:35:12');
+	t.is(format('%Y-%m-%d %H:%M:%S', new CivilTime(2015, 9, 22, 9, 35, 12), nyc), '2015-09-22 09:35:12');
+});
+
+test('convert', t => {
+	const now = Date.now() / 1000;
+	const nyc = tz('America/New_York');
+	const cs = convert(now, nyc);
+	const tp = convert(cs, nyc);
+	// Since CivilTime does not contains milliseconds
+	t.is(tp, Math.floor(now));
+	t.is(cs.year, new Date(now * 1000).getFullYear());
 });
 
 test('CivilTime has getters', t => {
 	const nyc = tz('America/New_York');
 	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc);
 	const ct = nyc.lookup(tp);
+
 	t.is(ct.cs.year, 2015);
 	t.is(ct.cs.month, 9);
 	t.is(ct.cs.day, 22);
@@ -74,8 +90,8 @@ test('CivilTime has setters', t => {
 	const nyc = tz('America/New_York');
 	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc);
 	const ct = nyc.lookup(tp);
-
 	const get = ct.cs.year + 1;
+
 	t.is(get, 2016);
 	t.is(ct.cs.year, 2015);
 	t.is(get === ct.cs, false);
@@ -84,32 +100,9 @@ test('CivilTime has setters', t => {
 	t.is(ct.cs.year, 2016);
 });
 
-test('convert shortcut is working', t => {
-	const now = Date.now() / 1000;
-	const nyc = tz('America/New_York');
-	const cs = convert(now, nyc);
-	t.is(cs.year, new Date(now * 1000).getFullYear());
-
-	const tp = convert(cs, nyc);
-	// Since CivilTime does not contains milliseconds
-	t.is(tp, Math.floor(now));
-});
-
-test('format shortcut is working', t => {
-	const now = Date.now() / 1000;
-	const nyc = tz('America/New_York');
-	const cs = convert(now, nyc);
-
-	const a = format('%Y-%m-%d %H:%M:%S', now, nyc);
-	const b = format('%Y-%m-%d %H:%M:%S', cs, nyc);
-
-	t.is(a, b);
-});
-
 test('example1.cc works', t => {
 	const lax = tz('America/Los_Angeles');
 	const tp = convert(new CivilTime(2015, 9, 22, 9), lax);
-
 	const nyc = tz('America/New_York');
 	const str = format('Talk starts at %T %z (%Z)', tp, nyc);
 
