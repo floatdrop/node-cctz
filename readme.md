@@ -186,18 +186,18 @@ All methods expect unix timestamp with fractional seconds, so there is no need f
 ## Benchmarks
 
 ```
-Format          (baseline) x 2,866,904 ops/sec ±6.22% (77 runs sampled)
-                    (cctz) x 1,071,124 ops/sec ±2.97% (81 runs sampled)
-                  (moment) x    79,488 ops/sec ±3.57% (79 runs sampled)
+Format          (baseline) x 3,228,610 ops/sec ±1.37% (85 runs sampled)
+                    (cctz) x 1,017,499 ops/sec ±2.03% (82 runs sampled)
+                  (moment) x    68,967 ops/sec ±6.87% (69 runs sampled)
 
-Parse           (baseline) x 2,099,187 ops/sec ±3.43% (83 runs sampled)
-                    (cctz) x 1,165,998 ops/sec ±7.08% (73 runs sampled)
-                  (moment) x    18,440 ops/sec ±2.19% (82 runs sampled)
+Parse           (baseline) x 1,370,895 ops/sec ±2.90% (82 runs sampled)
+                    (cctz) x 1,371,295 ops/sec ±1.85% (80 runs sampled)
+                  (moment) x    29,956 ops/sec ±2.55% (84 runs sampled)
 
-Add hour        (baseline) x 13,995,323 ops/sec ±2.34% (85 runs sampled)
-               (cctz-unix) x 32,914,870 ops/sec ±3.83% (81 runs sampled)
-              (cctz-civil) x  5,623,556 ops/sec ±1.53% (84 runs sampled)
-                  (moment) x    566,368 ops/sec ±2.98% (81 runs sampled)
+Add hour        (baseline) x 13,540,838 ops/sec ±3.07% (82 runs sampled)
+               (cctz-unix) x 29,005,393 ops/sec ±6.45% (72 runs sampled)
+              (cctz-civil) x  5,159,350 ops/sec ±3.75% (78 runs sampled)
+                  (moment) x    575,711 ops/sec ±2.07% (85 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
