@@ -3,6 +3,42 @@
 import test from 'ava';
 import {CivilTime, TimeZone, tz, convert, parse, format} from './';
 
+test('example1.cc', t => {
+	const lax = tz('America/Los_Angeles');
+	const tp = convert(new CivilTime(2015, 9, 22, 9), lax);
+	const nyc = tz('America/New_York');
+	const str = format('Talk starts at %T %z (%Z)', tp, nyc);
+
+	t.is(str, 'Talk starts at 12:00:00 -0400 (EDT)');
+});
+
+test('example2.cc', t => {
+	const lax = tz('America/Los_Angeles');
+	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:00', lax);
+
+	const now = Date.now() / 1000;
+
+	t.true(now > tp);
+});
+
+test('example3.cc', t => {
+	const lax = tz('America/Los_Angeles');
+	const now = convert(1442914512, lax);
+	const then = now.clone();
+	then.month += 6;
+	t.is(format('%F %T %z', now, lax), '2015-09-22 02:35:12 -0700');
+	t.is(format('%F %T %z', then, lax), '2016-03-22 02:35:12 -0700');
+});
+
+test('example4.cc', t => {
+	const lax = tz('America/Los_Angeles');
+	const now = convert(1442914512, lax);
+	const day = now.startOfDay();
+
+	t.is(format('%F %T %z', now, lax), '2015-09-22 02:35:12 -0700');
+	t.is(format('%F %T %z', day, lax), '2015-09-22 00:00:00 -0700');
+});
+
 test('startOf...', t => {
 	const time = new CivilTime(2015, 2, 2, 2, 2, 2);
 	const syear = time.startOfYear();
@@ -98,15 +134,6 @@ test('CivilTime has setters', t => {
 
 	ct.cs.year += 1;
 	t.is(ct.cs.year, 2016);
-});
-
-test('example1.cc works', t => {
-	const lax = tz('America/Los_Angeles');
-	const tp = convert(new CivilTime(2015, 9, 22, 9), lax);
-	const nyc = tz('America/New_York');
-	const str = format('Talk starts at %T %z (%Z)', tp, nyc);
-
-	t.is(str, 'Talk starts at 12:00:00 -0400 (EDT)');
 });
 
 test('normalization works', t => {
