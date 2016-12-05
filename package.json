@@ -33,6 +33,7 @@
   "devDependencies": {
     "ava": "^0.17.0",
     "benchmark": "^2.1.2",
+    "date-fns": "^1.11.2",
     "moment-timezone": "^0.5.9",
     "xo": "^0.17.1"
   },

@@ -73,7 +73,7 @@ Input string to parse.
 Type: `TimeZone`<br>
 Default: Timezone from `input` or UTC
 
-Timezone, that should be used in parse. Timezone could be part of input:
+Timezone, that should be used in parse. Timezone can be part of input:
 
 ```js
 cctz.parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12+03:00');
@@ -136,6 +136,8 @@ Creates CivilTime object with next properties:
 - `yearday` – only getter [1:356]
 - `weekday` – only getter [0:6]
 
+> __Tip:__ Fastest way to add amount of time is to add number of seconds to unix timestamp.
+
 ##### CivilTime.startOfYear()
 
 Returns new CivilTime object with start of year.
@@ -186,18 +188,20 @@ All methods expect unix timestamp with fractional seconds, so there is no need f
 ## Benchmarks
 
 ```
-Format              (cctz) x 521,836 ops/sec ±1.63% (85 runs sampled)
-                    (Date) x 157,501 ops/sec ±6.88% (79 runs sampled)
-                  (moment) x  61,377 ops/sec ±3.27% (74 runs sampled)
+Format              (cctz) x   527,321 ops/sec ±2.01% (83 runs sampled)
+                    (Date) x   172,913 ops/sec ±8.95% (80 runs sampled)
+                (date-fns) x    98,439 ops/sec ±1.02% (88 runs sampled)
+                  (moment) x    57,317 ops/sec ±3.13% (79 runs sampled)
 
-Parse               (cctz) x 1,395,589 ops/sec ±2.00% (83 runs sampled)
-                    (Date) x 1,275,307 ops/sec ±2.57% (77 runs sampled)
-                  (moment) x    29,321 ops/sec ±2.28% (82 runs sampled)
+Parse               (cctz) x 1,366,070 ops/sec ±6.09% (77 runs sampled)
+                    (Date) x 1,579,275 ops/sec ±1.44% (87 runs sampled)
+                (date-fns) x   307,501 ops/sec ±1.21% (86 runs sampled)
+                  (moment) x    32,721 ops/sec ±4.06% (80 runs sampled)
 
-Add hour       (cctz-unix) x 30,208,730 ops/sec ±6.05% (75 runs sampled)
-                    (Date) x 11,712,781 ops/sec ±6.51% (72 runs sampled)
-              (cctz-civil) x  4,684,646 ops/sec ±3.23% (78 runs sampled)
-                  (moment) x    562,580 ops/sec ±2.96% (82 runs sampled)
+Add hour            (cctz) x 5,764,077 ops/sec ±1.01% (83 runs sampled)
+                    (Date) x 3,841,869 ops/sec ±4.57% (78 runs sampled)
+                (date-fns) x 2,340,102 ops/sec ±1.37% (85 runs sampled)
+                  (moment) x   626,019 ops/sec ±1.28% (86 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.

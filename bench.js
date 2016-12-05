@@ -2,12 +2,14 @@
 
 const Benchmark = require('benchmark');
 const moment = require('moment-timezone');
+const dateFns = require('date-fns');
 const cctz = require('./');
 
 const suite = new Benchmark.Suite();
 
 let iunix = new Date() / 1000;
 let idate = new Date();
+let idtfs = new Date();
 let icctz = cctz.convert(new Date() / 1000, cctz.tz('UTC'));
 let immtz = moment().tz('America/New_York');
 
@@ -20,6 +22,9 @@ suite
 	.add('Format              (Date)', () => {
 		intl.format(new Date());
 	})
+	.add('Format          (date-fns)', () => {
+		dateFns.format(Date.now(), 'MM/DD/YYYY HH:mm:ss A');
+	})
 	.add('Format            (moment)', () => {
 		moment.tz('America/New_York').format('M/D/YYYY, HH:mm:ss A');
 	})
@@ -29,17 +34,20 @@ suite
 	.add('Parse               (Date)', () => {
 		new Date('2015-09-22 09:35:12+03:00') / 1000;
 	})
+	.add('Parse           (date-fns)', () => {
+		dateFns.parse('2015-09-22 09:35:12+03:00') / 1000;
+	})
 	.add('Parse             (moment)', () => {
 		moment('2015-09-22 09:35:12+03:00').unix();
 	})
-	.add('Add hour       (cctz-unix)', () => {
-		iunix += 60 * 60;
+	.add('Add hour            (cctz)', () => {
+		icctz.hour += 1;
 	})
 	.add('Add hour            (Date)', () => {
-		idate.setTime(idate.getTime() + (60 * 60 * 1000));
+		idate.setHours(idate.getHours() + 1);
 	})
-	.add('Add hour      (cctz-civil)', () => {
-		icctz.hour += 1;
+	.add('Add hour        (date-fns)', () => {
+		dateFns.addHours(idtfs, 1);
 	})
 	.add('Add hour          (moment)', () => {
 		immtz.add(1, 'h');
