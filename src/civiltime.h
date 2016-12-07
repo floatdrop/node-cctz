@@ -50,6 +50,7 @@ private:
 	static NAN_METHOD(StartOfYear);
 	static NAN_METHOD(StartOfMonth);
 	static NAN_METHOD(StartOfDay);
+	static NAN_METHOD(StartOfHour);
 };
 
 #endif

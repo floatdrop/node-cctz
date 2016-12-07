@@ -150,6 +150,10 @@ Returns new CivilTime object with start of month.
 
 Returns new CivilTime object with start of day.
 
+##### CivilTime.startOfHour()
+
+Returns new CivilTime object with start of hour.
+
 ##### CivilTime.clone()
 
 Returns cloned CivilTime object.

@@ -39,31 +39,48 @@ test('example4.cc', t => {
 	t.is(format('%F %T %z', day, lax), '2015-09-22 00:00:00 -0700');
 });
 
-test('startOf...', t => {
+test('startOfYear', t => {
 	const time = new CivilTime(2015, 2, 2, 2, 2, 2);
-	const syear = time.startOfYear();
-	t.is(syear.year, 2015);
-	t.is(syear.month, 1);
-	t.is(syear.day, 1);
-	t.is(syear.hour, 0);
-	t.is(syear.minute, 0);
-	t.is(syear.second, 0);
+	const year = time.startOfYear();
+	t.is(year.year, 2015);
+	t.is(year.month, 1);
+	t.is(year.day, 1);
+	t.is(year.hour, 0);
+	t.is(year.minute, 0);
+	t.is(year.second, 0);
+});
 
-	const smnth = time.startOfMonth();
-	t.is(smnth.year, 2015);
-	t.is(smnth.month, 2);
-	t.is(smnth.day, 1);
-	t.is(smnth.hour, 0);
-	t.is(smnth.minute, 0);
-	t.is(smnth.second, 0);
+test('startOfMonth', t => {
+	const time = new CivilTime(2015, 2, 2, 2, 2, 2);
+	const month = time.startOfMonth();
+	t.is(month.year, 2015);
+	t.is(month.month, 2);
+	t.is(month.day, 1);
+	t.is(month.hour, 0);
+	t.is(month.minute, 0);
+	t.is(month.second, 0);
+});
 
-	const sday = time.startOfDay();
-	t.is(sday.year, 2015);
-	t.is(sday.month, 2);
-	t.is(sday.day, 2);
-	t.is(sday.hour, 0);
-	t.is(sday.minute, 0);
-	t.is(sday.second, 0);
+test('startOfDay', t => {
+	const time = new CivilTime(2015, 2, 2, 2, 2, 2);
+	const day = time.startOfDay();
+	t.is(day.year, 2015);
+	t.is(day.month, 2);
+	t.is(day.day, 2);
+	t.is(day.hour, 0);
+	t.is(day.minute, 0);
+	t.is(day.second, 0);
+});
+
+test('startOfHour', t => {
+	const time = new CivilTime(2015, 2, 2, 2, 2, 2);
+	const hour = time.startOfHour();
+	t.is(hour.year, 2015);
+	t.is(hour.month, 2);
+	t.is(hour.day, 2);
+	t.is(hour.hour, 2);
+	t.is(hour.minute, 0);
+	t.is(hour.second, 0);
 });
 
 test('undefined in arguments', t => {
