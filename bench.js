@@ -7,10 +7,10 @@ const cctz = require('./');
 
 const suite = new Benchmark.Suite();
 
-let iunix = new Date() / 1000;
-let idate = new Date();
-let idtfs = new Date();
-let icctz = cctz.convert(new Date() / 1000, cctz.tz('UTC'));
+let iunix = Date.now() / 1000;
+let idate = Date.now();
+let idtfs = Date.now();
+let icctz = cctz.convert(Date.now() / 1000, cctz.tz('UTC'));
 let immtz = moment().tz('America/New_York');
 
 const intl = new Intl.DateTimeFormat('en-US', {timezone: 'America/New_York'});
@@ -20,7 +20,7 @@ suite
 		cctz.format('%m/%d/%Y, %H:%M:%S %p', Date.now() / 1000, cctz.tz('America/New_York'));
 	})
 	.add('Format              (Date)', () => {
-		intl.format(new Date());
+		intl.format(Date.now());
 	})
 	.add('Format          (date-fns)', () => {
 		dateFns.format(Date.now(), 'MM/DD/YYYY HH:mm:ss A');
