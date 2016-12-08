@@ -55,12 +55,15 @@ NAN_METHOD(parse) {
 	cctz::time_zone tz;
 
 	if (info.Length() > 2 && !info[2]->IsUndefined()) {
-		if (!info[2]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
-			Nan::ThrowTypeError("timezone must be an instance of TimeZone");
+		if (info[2]->IsObject() && Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
+			TimeZone* tzObj = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
+			tz = tzObj->value;
+		} else if (info[2]->IsString()) {
+			cctz::load_time_zone(*Nan::Utf8String(info[2]), &tz);
+		} else {
+			Nan::ThrowTypeError("timezone must be a string or an instance of TimeZone");
 			return;
 		}
-		TimeZone* tzObj = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
-		tz = tzObj->value;
 	} else {
 		tz = cctz::utc_time_zone();
 	}
@@ -90,16 +93,22 @@ NAN_METHOD(format) {
 	}
 	std::string format = *Nan::Utf8String(info[0]);
 
-	if (!info[2]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
-		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
+	cctz::time_zone tz;
+
+	if (info[2]->IsObject() && Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
+		TimeZone* tzObj = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
+		tz = tzObj->value;
+	} else if (info[2]->IsString()) {
+		cctz::load_time_zone(*Nan::Utf8String(info[2]), &tz);
+	} else {
+		Nan::ThrowTypeError("timezone must be a string or an instance of TimeZone");
 		return;
 	}
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
 
 	if (info[1]->IsNumber()) {
 		auto arg1 = info[1]->NumberValue();
 		auto tp = toTimePoint(arg1);
-		std::string str = cctz::format(format, tp, tz->value);
+		std::string str = cctz::format(format, tp, tz);
 		info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
 		return;
 	}
@@ -108,7 +117,7 @@ NAN_METHOD(format) {
 		auto arg1 = info[1]->ToObject();
 		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(arg1);
 
-		std::string str = cctz::format(format, cctz::convert(cs->value, tz->value), tz->value);
+		std::string str = cctz::format(format, cctz::convert(cs->value, tz), tz);
 		info.GetReturnValue().Set(Nan::New(str).ToLocalChecked());
 		return;
 	}
@@ -122,16 +131,21 @@ NAN_METHOD(convert) {
 		return;
 	}
 
-	if (!info[1]->IsObject() || !Nan::New(TimeZone::prototype)->HasInstance(info[1]->ToObject())) {
-		Nan::ThrowTypeError("timezone must be an instance of TimeZone");
+	cctz::time_zone tz;
+
+	if (info[1]->IsObject() && Nan::New(TimeZone::prototype)->HasInstance(info[1]->ToObject())) {
+		TimeZone* tzObj = Nan::ObjectWrap::Unwrap<TimeZone>(info[1]->ToObject());
+		tz = tzObj->value;
+	} else if (info[1]->IsString()) {
+		cctz::load_time_zone(*Nan::Utf8String(info[1]), &tz);
+	} else {
+		Nan::ThrowTypeError("timezone must be a string or an instance of TimeZone");
 		return;
 	}
 
-	TimeZone* tz = Nan::ObjectWrap::Unwrap<TimeZone>(info[1]->ToObject());
-
 	if (info[0]->IsNumber()) {
 		auto tp = toTimePoint(info[0]->NumberValue());
-		auto al = tz->value.lookup(tp);
+		auto al = tz.lookup(tp);
 
 		v8::Local<v8::Object> csObj = CivilTime::NewInstance();
 		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(csObj);
@@ -143,7 +157,7 @@ NAN_METHOD(convert) {
 
 	if (info[0]->IsObject() && Nan::New(CivilTime::prototype)->HasInstance(info[0]->ToObject())) {
 		CivilTime* cs = Nan::ObjectWrap::Unwrap<CivilTime>(info[0]->ToObject());
-		const cctz::time_zone::civil_lookup cl = tz->value.lookup(cs->value);
+		const cctz::time_zone::civil_lookup cl = tz.lookup(cs->value);
 
 		if (cl.kind == cctz::time_zone::civil_lookup::SKIPPED) {
 			info.GetReturnValue().Set(toUnixTimestamp(cl.trans));

@@ -101,13 +101,16 @@ test('parse', t => {
 	const nyc = tz('America/New_York');
 	t.is(parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12'), 1442914512);
 	t.is(parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', nyc), 1442928912);
+	t.is(parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:12', 'America/New_York'), 1442928912);
 	t.is(parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12-0400'), 1442928912);
 });
 
 test('format', t => {
 	const nyc = tz('America/New_York');
 	t.is(format('%Y-%m-%d %H:%M:%S', 1442928912, nyc), '2015-09-22 09:35:12');
+	t.is(format('%Y-%m-%d %H:%M:%S', 1442928912, 'America/New_York'), '2015-09-22 09:35:12');
 	t.is(format('%Y-%m-%d %H:%M:%S', new CivilTime(2015, 9, 22, 9, 35, 12), nyc), '2015-09-22 09:35:12');
+	t.is(format('%Y-%m-%d %H:%M:%S', new CivilTime(2015, 9, 22, 9, 35, 12), 'America/New_York'), '2015-09-22 09:35:12');
 });
 
 test('convert', t => {
@@ -115,8 +118,10 @@ test('convert', t => {
 	const nyc = tz('America/New_York');
 	const cs = convert(now, nyc);
 	const tp = convert(cs, nyc);
+	const tp2 = convert(cs, 'America/New_York');
 	// Since CivilTime does not contains milliseconds
 	t.is(tp, Math.floor(now));
+	t.is(tp2, Math.floor(now));
 	t.is(cs.year, new Date(now * 1000).getFullYear());
 });
 

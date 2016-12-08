@@ -25,11 +25,8 @@ $ export npm_config_clang=1
 ```js
 const cctz = require('cctz');
 
-const lax = cctz.tz('America/Los_Angeles');
-const tp = cctz.convert(new cctz.CivilTime(2015, 9, 22, 9), lax);
-
-const nyc = cctz.tz('America/New_York');
-console.log(cctz.format('Talk starts at %T %z (%Z)', tp, nyc));
+const tp = cctz.convert(new cctz.CivilTime(2015, 9, 22, 9), 'America/Los_Angeles');
+console.log(cctz.format('Talk starts at %T %z (%Z)', tp, 'America/New_York'));
 
 // => Talk starts at 12:00:00 -0400 (EDT)
 ```
@@ -70,7 +67,7 @@ Input string to parse.
 
 ##### timezone
 
-Type: `TimeZone`<br>
+Type: `TimeZone` or `string`<br>
 Default: Timezone from `input` or UTC
 
 Timezone, that should be used in parse. Timezone can be part of input:
@@ -97,7 +94,7 @@ Unix timestamp in seconds (can have fractional part).
 
 ##### timezone
 
-Type: `TimeZone`
+Type: `TimeZone` or `string`
 
 TimeZone objcet, that represents target timezone for formatting.
 
@@ -114,7 +111,7 @@ Otherwise returns `CivilTime`.
 
 ##### timezone
 
-Type: `TimeZone`
+Type: `TimeZone` or `string`
 
 TimeZone objcet, that represents target timezone for converting.
 
