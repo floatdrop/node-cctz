@@ -8,7 +8,7 @@ const cctz = require('./');
 const suite = new Benchmark.Suite();
 
 let iunix = Date.now() / 1000;
-let idate = Date.now();
+let idate = new Date();
 let idtfs = Date.now();
 let icctz = cctz.convert(Date.now() / 1000, cctz.tz('UTC'));
 let immtz = moment().tz('America/New_York');
