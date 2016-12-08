@@ -34,18 +34,44 @@ console.log(cctz.format('Talk starts at %T %z (%Z)', tp, 'America/New_York'));
 
 ## API
 
-### tz(name)
+### convert(time, timezone)
 
-> Alias for `cctz.load_time_zone`
+Converts `CivilTime` to unix timestamp and vice versa.
 
-Use this method instead `new TimeZone` – because it caches `TimeZone` objects inside.
+##### time
 
-Returns `TimeZone` object.
+Type: `CivilTime` or `number`
 
-##### name
+If `time` is `CivilTime`, then method returns Unix timestamp (without fractional part).
+Otherwise returns `CivilTime`.
+
+##### timezone
+
+Type: `TimeZone` or `string`
+
+TimeZone objcet, that represents target timezone for converting.
+
+### format(format, unix, timezone)
+
+Returns formatted unix timestamp according to timezone.
+
+##### format
+
 Type: `string`
 
-Timezone name, that should be loaded from `/usr/share/zoneinfo`.
+Format of output. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for syntax.
+
+##### unix
+
+Type: `number`
+
+Unix timestamp in seconds (can have fractional part).
+
+##### timezone
+
+Type: `TimeZone` or `string`
+
+TimeZone objcet, that represents target timezone for formatting.
 
 ### parse(format, input, [timezone])
 
@@ -76,44 +102,18 @@ Timezone, that should be used in parse. Timezone can be part of input:
 cctz.parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12+03:00');
 ```
 
-### format(format, unix, timezone)
+### tz(name)
 
-Returns formatted unix timestamp according to timezone.
+> Alias for `cctz.load_time_zone`
 
-##### format
+Use this method instead `new TimeZone` – because it caches `TimeZone` objects inside.
 
+Returns `TimeZone` object.
+
+##### name
 Type: `string`
 
-Format of output. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for syntax.
-
-##### unix
-
-Type: `number`
-
-Unix timestamp in seconds (can have fractional part).
-
-##### timezone
-
-Type: `TimeZone` or `string`
-
-TimeZone objcet, that represents target timezone for formatting.
-
-### convert(time, timezone)
-
-Converts `CivilTime` to unix timestamp and vice versa.
-
-##### time
-
-Type: `CivilTime` or `number`
-
-If `time` is `CivilTime`, then method returns Unix timestamp (without fractional part).
-Otherwise returns `CivilTime`.
-
-##### timezone
-
-Type: `TimeZone` or `string`
-
-TimeZone objcet, that represents target timezone for converting.
+Timezone name, that should be loaded from `/usr/share/zoneinfo`.
 
 
 ### CivilTime
