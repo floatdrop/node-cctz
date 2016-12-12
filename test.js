@@ -136,7 +136,7 @@ test('CivilTime has getters', t => {
 	t.is(ct.cs.hour, 9);
 	t.is(ct.cs.minute, 35);
 	t.is(ct.cs.second, 12);
-	t.is(ct.cs.weekday, 6);
+	t.is(ct.cs.weekday, 1);
 	t.is(ct.cs.yearday, 265);
 
 	t.is(ct.abbr, 'EDT');

@@ -108,19 +108,19 @@ NAN_GETTER(CivilTime::GetWeekday) {
 	auto wd = cctz::get_weekday(cctz::civil_day(cs->value));
 	switch (wd) {
 		case cctz::weekday::monday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(0));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(0));
 		case cctz::weekday::tuesday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(1));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(1));
 		case cctz::weekday::wednesday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(2));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(2));
 		case cctz::weekday::thursday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(3));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(3));
 		case cctz::weekday::friday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(4));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(4));
 		case cctz::weekday::saturday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(5));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(5));
 		case cctz::weekday::sunday:
-			info.GetReturnValue().Set(Nan::New<v8::Number>(6));
+			return info.GetReturnValue().Set(Nan::New<v8::Number>(6));
 	}
 }
 
