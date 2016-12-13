@@ -1,6 +1,6 @@
 {
   "name": "cctz",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "⚡️ Fast parsing, formatting and timezone manipulations for dates",
   "main": "index.js",
   "scripts": {
