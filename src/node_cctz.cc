@@ -65,7 +65,7 @@ NAN_METHOD(parse) {
 			return;
 		}
 	} else {
-		tz = cctz::utc_time_zone();
+		tz = cctz::local_time_zone();
 	}
 
 	std::string format = *Nan::Utf8String(info[0]);
@@ -82,8 +82,8 @@ NAN_METHOD(parse) {
 }
 
 NAN_METHOD(format) {
-	if (info.Length() < 3) {
-		Nan::ThrowTypeError("Expected 3 arguments: format, unix timestamp or CilivTime, timezone");
+	if (info.Length() < 2) {
+		Nan::ThrowTypeError("Expected 2 arguments: format, unix timestamp or CilivTime and optional timezone");
 		return;
 	}
 
@@ -95,7 +95,9 @@ NAN_METHOD(format) {
 
 	cctz::time_zone tz;
 
-	if (info[2]->IsObject() && Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
+	if (info.Length() == 2 || info[2]->IsUndefined()) {
+		tz = cctz::local_time_zone();
+	} else if (info[2]->IsObject() && Nan::New(TimeZone::prototype)->HasInstance(info[2]->ToObject())) {
 		TimeZone* tzObj = Nan::ObjectWrap::Unwrap<TimeZone>(info[2]->ToObject());
 		tz = tzObj->value;
 	} else if (info[2]->IsString()) {

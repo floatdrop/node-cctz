@@ -51,7 +51,7 @@ Type: `TimeZone` or `string`
 
 TimeZone objcet, that represents target timezone for converting.
 
-### format(format, unix, timezone)
+### format(format, unix, [timezone])
 
 Returns formatted unix timestamp according to timezone.
 
@@ -70,6 +70,7 @@ Unix timestamp in seconds (can have fractional part).
 ##### timezone
 
 Type: `TimeZone` or `string`
+Default: local timezone
 
 TimeZone objcet, that represents target timezone for formatting.
 
@@ -94,7 +95,7 @@ Input string to parse.
 ##### timezone
 
 Type: `TimeZone` or `string`<br>
-Default: Timezone from `input` or UTC
+Default: Timezone from `input` or local timezone
 
 Timezone, that should be used in parse. Timezone can be part of input:
 

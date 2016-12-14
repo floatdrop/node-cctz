@@ -3,6 +3,8 @@
 import test from 'ava';
 import {CivilTime, TimeZone, tz, convert, parse, format} from './';
 
+process.env.TZ = 'UTC';
+
 test('example1.cc', t => {
 	const lax = tz('America/Los_Angeles');
 	const tp = convert(new CivilTime(2015, 9, 22, 9), lax);
@@ -89,7 +91,6 @@ test('undefined in arguments', t => {
 	t.throws(() => parse('', undefined));
 	t.throws(() => format(undefined));
 	t.throws(() => format('', undefined));
-	t.throws(() => format('', 1, undefined));
 	t.throws(() => convert(undefined));
 	t.throws(() => convert('', undefined));
 	t.throws(() => convert(new CivilTime(), undefined));
