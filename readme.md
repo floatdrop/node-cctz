@@ -59,7 +59,7 @@ Returns formatted unix timestamp according to timezone.
 
 Type: `string`
 
-Format of output. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L197) sources for syntax.
+Format of output. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6e09ceb/include/time_zone.h#L197) sources for syntax.
 
 ##### unix
 
@@ -84,7 +84,7 @@ Returns unix timestamp or `undefined` if parsing failed.
 
 Type: `string`
 
-Format of `input` argument. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#232) sources for syntax.
+Format of `input` argument. See [strftime](http://www.cplusplus.com/reference/ctime/strftime/) documentation and [Google CCTZ](https://github.com/google/cctz/blob/6e09ceb/include/time_zone.h#232) sources for syntax.
 
 ##### input
 
@@ -119,7 +119,7 @@ Timezone name, that should be loaded from `/usr/share/zoneinfo`.
 
 ### CivilTime
 
-Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/civil_time.h#L22) with getters and setters for properties.
+Holder for [`cctz::civil_second`](https://github.com/google/cctz/blob/6e09ceb/include/civil_time.h#L22) with getters and setters for properties.
 
 #### CivilTime(year = 1970, month = 1, day = 1, hour = 0, minute = 0, second = 0)
 
@@ -159,7 +159,7 @@ Returns cloned CivilTime object.
 
 ### TimeZone
 
-Holder for [`cctz::time_zone`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L37).
+Holder for [`cctz::time_zone`](https://github.com/google/cctz/blob/6e09ceb/include/time_zone.h#L37).
 
 #### TimeZone(name)
 
@@ -167,11 +167,11 @@ Creates __new__ object with TimeZone.
 
 ##### TimeZone.lookup(unix)
 
-Returns [`cctz::absolute_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L60) object.
+Returns [`cctz::absolute_lookup`](https://github.com/google/cctz/blob/6e09ceb/include/time_zone.h#L60) object.
 
 ##### TimeZone.lookup(civiltime)
 
-Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6a694a40f3770f6d41e6ab1721c29f4ea1d8352b/include/time_zone.h#L85) object.
+Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6e09ceb/include/time_zone.h#L85) object.
 
 ##### TimeZone.name
 
@@ -190,20 +190,18 @@ All methods expect unix timestamp with fractional seconds, so there is no need f
 ## Benchmarks
 
 ```
-Format              (cctz) x   527,321 ops/sec ±2.01% (83 runs sampled)
-                    (Date) x   172,913 ops/sec ±8.95% (80 runs sampled)
-                (date-fns) x    98,439 ops/sec ±1.02% (88 runs sampled)
-                  (moment) x    57,317 ops/sec ±3.13% (79 runs sampled)
-
-Parse               (cctz) x 1,366,070 ops/sec ±6.09% (77 runs sampled)
-                    (Date) x 1,579,275 ops/sec ±1.44% (87 runs sampled)
-                (date-fns) x   307,501 ops/sec ±1.21% (86 runs sampled)
-                  (moment) x    32,721 ops/sec ±4.06% (80 runs sampled)
-
-Add hour            (cctz) x 5,764,077 ops/sec ±1.01% (83 runs sampled)
-                    (Date) x 3,841,869 ops/sec ±4.57% (78 runs sampled)
-                (date-fns) x 2,340,102 ops/sec ±1.37% (85 runs sampled)
-                  (moment) x   626,019 ops/sec ±1.28% (86 runs sampled)
+Format              (cctz) x   494,572 ops/sec ±0.66% (84 runs sampled)
+                    (Date) x   169,218 ops/sec ±6.32% (77 runs sampled)
+                (date-fns) x   101,390 ops/sec ±1.81% (85 runs sampled)
+                  (moment) x    64,363 ops/sec ±1.41% (87 runs sampled)
+Parse               (cctz) x 1,192,001 ops/sec ±0.82% (85 runs sampled)
+                    (Date) x 1,266,854 ops/sec ±1.35% (82 runs sampled)
+                (date-fns) x   233,798 ops/sec ±8.74% (73 runs sampled)
+                  (moment) x    26,914 ops/sec ±1.55% (85 runs sampled)
+Add hour            (cctz) x 5,900,313 ops/sec ±0.92% (83 runs sampled)
+                    (Date) x 3,626,630 ops/sec ±5.13% (79 runs sampled)
+                (date-fns) x 3,162,247 ops/sec ±3.79% (85 runs sampled)
+                  (moment) x   575,331 ops/sec ±7.50% (79 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
