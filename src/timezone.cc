@@ -99,7 +99,7 @@ NAN_METHOD(TimeZone::New) {
 	}
 
 	obj->Wrap(info.This());
-	info.This()->Set(Nan::New("name").ToLocalChecked(), info[0]);
+	info.This()->Set(Nan::New("name").ToLocalChecked(), Nan::New(obj->value.name()).ToLocalChecked());
 	info.GetReturnValue().Set(info.This());
 }
 

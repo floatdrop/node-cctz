@@ -176,3 +176,7 @@ test('CivilTime clone works', t => {
 	t.is(now.day, 1);
 	t.is(now.day + 1, tomorrow.day);
 });
+
+test('TimeZone has name getter', t => {
+	t.is(new TimeZone('UTC').name, 'UTC');
+});
