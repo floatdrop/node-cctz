@@ -94,8 +94,10 @@ NAN_METHOD(TimeZone::New) {
 
 	TimeZone* obj = new TimeZone();
 
-	if (!cctz::load_time_zone(*Nan::Utf8String(info[0]), &(obj->value))) {
-		return Nan::ThrowError("Failed to load time zone");
+	auto tzname = *Nan::Utf8String(info[0]);
+	if (!cctz::load_time_zone(tzname, &(obj->value))) {
+		auto message = std::string("Failed to load time zone ") + tzname;
+		return Nan::ThrowError(message.c_str());
 	}
 
 	obj->Wrap(info.This());

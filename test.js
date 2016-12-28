@@ -178,5 +178,6 @@ test('CivilTime clone works', t => {
 });
 
 test('TimeZone has name getter', t => {
+	t.throws(() => new TimeZone('unknown'), 'Failed to load time zone unknown');
 	t.is(new TimeZone('UTC').name, 'UTC');
 });
