@@ -7,7 +7,7 @@ CivilTime::~CivilTime() {};
 Nan::Persistent<v8::Function> CivilTime::constructor;
 Nan::Persistent<v8::FunctionTemplate> CivilTime::prototype;
 
-void CivilTime::Init(v8::Local<v8::Object> target) {
+NAN_MODULE_INIT(CivilTime::Init) {
 	Nan::HandleScope scope;
 	auto name = Nan::New("CivilTime").ToLocalChecked();
 

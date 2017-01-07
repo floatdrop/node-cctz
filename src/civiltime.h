@@ -7,7 +7,7 @@
 
 class CivilTime : public Nan::ObjectWrap {
 public:
-	static void Init(v8::Local<v8::Object> target);
+	static NAN_MODULE_INIT(Init);
 	static v8::Local<v8::Object> NewInstance();
 	static Nan::Persistent<v8::FunctionTemplate> prototype;
 

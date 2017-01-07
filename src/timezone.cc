@@ -10,7 +10,7 @@ TimeZone::~TimeZone() {};
 Nan::Persistent<v8::Function> TimeZone::constructor;
 Nan::Persistent<v8::FunctionTemplate> TimeZone::prototype;
 
-void TimeZone::Init(v8::Local<v8::Object> target) {
+NAN_MODULE_INIT(TimeZone::Init) {
 	Nan::HandleScope scope;
 	auto name = Nan::New("TimeZone").ToLocalChecked();
 
