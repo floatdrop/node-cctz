@@ -177,10 +177,10 @@ NAN_MODULE_INIT(Init) {
 	TimeZone::Init(target);
 	CivilTime::Init(target);
 
-	NAN_EXPORT(target, load_time_zone);
-	NAN_EXPORT(target, parse);
-	NAN_EXPORT(target, format);
-	NAN_EXPORT(target, convert);
+	Nan::SetMethod(target, "load_time_zone", load_time_zone);
+	Nan::SetMethod(target, "parse", parse);
+	Nan::SetMethod(target, "format", format);
+	Nan::SetMethod(target, "convert", convert);
 }
 
 NODE_MODULE(node_cctz, Init)
