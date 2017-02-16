@@ -52,6 +52,18 @@ suite
 	.add('Add hour          (moment)', () => {
 		immtz.add(1, 'h');
 	})
+	.add('Convert Ut->Time    (cctz)', () => {
+		cctz.convert(Date.now() / 1000, cctz.tz('America/New_York'));
+	})
+	.add('Convert Ut->Time  (moment)', () => {
+		moment().tz('America/New_York');
+	})
+	.add('Convert Time->Ut    (cctz)', () => {
+		cctz.convert(new cctz.CivilTime(2017, 2, 16, 14, 4, 0), cctz.tz('UTC'));
+	})
+	.add('Convert Time->Ut  (moment)', () => {
+		moment([2017, 2, 16, 14, 4, 0]).unix();
+	})
 	.on('cycle', event => {
 		console.log(String(event.target));
 	})

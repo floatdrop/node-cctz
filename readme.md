@@ -190,18 +190,26 @@ All methods expect unix timestamp with fractional seconds, so there is no need f
 ## Benchmarks
 
 ```
-Format              (cctz) x   494,572 ops/sec ±0.66% (84 runs sampled)
-                    (Date) x   169,218 ops/sec ±6.32% (77 runs sampled)
-                (date-fns) x   101,390 ops/sec ±1.81% (85 runs sampled)
-                  (moment) x    64,363 ops/sec ±1.41% (87 runs sampled)
-Parse               (cctz) x 1,192,001 ops/sec ±0.82% (85 runs sampled)
-                    (Date) x 1,266,854 ops/sec ±1.35% (82 runs sampled)
-                (date-fns) x   233,798 ops/sec ±8.74% (73 runs sampled)
-                  (moment) x    26,914 ops/sec ±1.55% (85 runs sampled)
-Add hour            (cctz) x 5,900,313 ops/sec ±0.92% (83 runs sampled)
-                    (Date) x 3,626,630 ops/sec ±5.13% (79 runs sampled)
-                (date-fns) x 3,162,247 ops/sec ±3.79% (85 runs sampled)
-                  (moment) x   575,331 ops/sec ±7.50% (79 runs sampled)
+Format              (cctz) x 532,683 ops/sec ±2.80% (78 runs sampled)
+                    (Date) x 191,400 ops/sec ±2.59% (81 runs sampled)
+                (date-fns) x  91,772 ops/sec ±1.58% (85 runs sampled)
+                  (moment) x  56,508 ops/sec ±6.35% (76 runs sampled)
+
+Parse               (cctz) x 1,105,353 ops/sec ±0.59% (86 runs sampled)
+                    (Date) x 1,200,218 ops/sec ±2.00% (82 runs sampled)
+                (date-fns) x   249,225 ops/sec ±5.00% (77 runs sampled)
+                  (moment) x    23,905 ops/sec ±1.91% (80 runs sampled)
+
+Add hour            (cctz) x 6,123,083 ops/sec ±5.39% (82 runs sampled)
+                    (Date) x 3,604,915 ops/sec ±1.13% (69 runs sampled)
+                (date-fns) x 3,211,900 ops/sec ±2.28% (81 runs sampled)
+                  (moment) x   590,854 ops/sec ±8.48% (72 runs sampled)
+
+Convert Ut->Time    (cctz) x 653,305 ops/sec ±9.33% (68 runs sampled)
+                  (moment) x 144,580 ops/sec ±2.18% (83 runs sampled)
+
+Convert Time->Ut    (cctz) x 987,437 ops/sec ±11.68% (70 runs sampled)
+                  (moment) x 154,492 ops/sec ±3.54% (82 runs sampled)
 ```
 
 Run `npm i` and then `npm run bench`.
