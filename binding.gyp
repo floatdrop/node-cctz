@@ -11,6 +11,7 @@
         "cctz/src/time_zone_libc.cc",
         "cctz/src/time_zone_lookup.cc",
         "cctz/src/time_zone_posix.cc",
+		"cctz/src/civil_time_detail.cc",
         "src/civiltime.cc",
         "src/timezone.cc",
         "src/node_cctz.cc"
