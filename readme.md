@@ -116,6 +116,12 @@ Type: `string`
 
 Timezone name, that should be loaded from `/usr/share/zoneinfo`.
 
+### now()
+
+> Alias for `Date.now() / 1000`
+
+Returns unix timestamp in seconds (with fractional milliseconds)
+
 
 ### CivilTime
 
@@ -176,15 +182,6 @@ Returns [`cctz::civil_lookup`](https://github.com/google/cctz/blob/6e09ceb/inclu
 ##### TimeZone.name
 
 Name of TimeZone.
-
-
-## Creating Unix timestamp
-
-```js
-const timestamp = Date.now() / 1000;
-```
-
-All methods expect unix timestamp with fractional seconds, so there is no need for `Math.floor`.
 
 
 ## Benchmarks

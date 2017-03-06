@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 import test from 'ava';
-import {CivilTime, TimeZone, tz, convert, parse, format} from './';
+import {CivilTime, TimeZone, tz, convert, parse, format, now} from './';
 
 process.env.TZ = 'UTC';
 
@@ -18,9 +18,7 @@ test('example2.cc', t => {
 	const lax = tz('America/Los_Angeles');
 	const tp = parse('%Y-%m-%d %H:%M:%S', '2015-09-22 09:35:00', lax);
 
-	const now = Date.now() / 1000;
-
-	t.true(now > tp);
+	t.true(now() > tp);
 });
 
 test('example3.cc', t => {
@@ -115,15 +113,15 @@ test('format', t => {
 });
 
 test('convert', t => {
-	const now = Date.now() / 1000;
+	const ut = now();
 	const nyc = tz('America/New_York');
-	const cs = convert(now, nyc);
+	const cs = convert(ut, nyc);
 	const tp = convert(cs, nyc);
 	const tp2 = convert(cs, 'America/New_York');
 	// Since CivilTime does not contains milliseconds
-	t.is(tp, Math.floor(now));
-	t.is(tp2, Math.floor(now));
-	t.is(cs.year, new Date(now * 1000).getFullYear());
+	t.is(tp, Math.floor(ut));
+	t.is(tp2, Math.floor(ut));
+	t.is(cs.year, new Date(ut * 1000).getFullYear());
 });
 
 test('CivilTime has getters', t => {
@@ -180,4 +178,8 @@ test('CivilTime clone works', t => {
 test('TimeZone has name getter', t => {
 	t.throws(() => new TimeZone('unknown'), 'Failed to load time zone unknown');
 	t.is(new TimeZone('UTC').name, 'UTC');
+});
+
+test('now shortcut works', t => {
+	t.is(now(), Date.now() / 1000);
 });
