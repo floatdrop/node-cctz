@@ -118,9 +118,9 @@ Timezone name, that should be loaded from `/usr/share/zoneinfo`.
 
 ### now()
 
-> Alias for `Date.now() / 1000`
+> Alias for `Math.floor(Date.now() / 1000)`
 
-Returns unix timestamp in seconds (with fractional milliseconds)
+Returns unix timestamp in seconds. All methods can accept timestamp with fractional milliseconds (if you need such accuracy).
 
 
 ### CivilTime
