@@ -25,8 +25,8 @@ $ export npm_config_clang=1
 ```js
 const {convert, format, CivilTime} = require('cctz');
 
-const tp = convert(new CivilTime(2015, 9, 22, 9), 'America/Los_Angeles');
-console.log(format('Talk starts at %T %z (%Z)', tp, 'America/New_York'));
+const unix = convert(new CivilTime(2015, 9, 22, 9), 'America/Los_Angeles');
+console.log(format('Talk starts at %T %z (%Z)', unix, 'America/New_York'));
 
 // => Talk starts at 12:00:00 -0400 (EDT)
 ```
