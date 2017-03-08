@@ -181,5 +181,5 @@ test('TimeZone has name getter', t => {
 });
 
 test('now shortcut works', t => {
-	t.is(now(), Date.now() / 1000);
+	t.is(now(), Math.floor(Date.now() / 1000));
 });
