@@ -3,21 +3,21 @@
 const Benchmark = require('benchmark');
 const moment = require('moment-timezone');
 const dateFns = require('date-fns');
-const cctz = require('./');
+const {convert, format, parse, CivilTime, now, tz} = require('./');
 
 const suite = new Benchmark.Suite();
 
 let iunix = Date.now() / 1000;
 let idate = new Date();
 let idtfs = Date.now();
-let icctz = cctz.convert(Date.now() / 1000, cctz.tz('UTC'));
+let icctz = convert(now(), tz('UTC'));
 let immtz = moment().tz('America/New_York');
 
 const intl = new Intl.DateTimeFormat('en-US', {timezone: 'America/New_York'});
 
 suite
 	.add('Format              (cctz)', () => {
-		cctz.format('%m/%d/%Y, %H:%M:%S %p', Date.now() / 1000, cctz.tz('America/New_York'));
+		format('%m/%d/%Y, %H:%M:%S %p', now(), tz('America/New_York'));
 	})
 	.add('Format              (Date)', () => {
 		intl.format(Date.now());
@@ -29,13 +29,13 @@ suite
 		moment.tz('America/New_York').format('M/D/YYYY, HH:mm:ss A');
 	})
 	.add('Parse               (cctz)', () => {
-		cctz.parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12+03:00');
+		parse('%Y-%m-%d %H:%M:%S %Ez', '2015-09-22 09:35:12+03:00');
 	})
 	.add('Parse               (Date)', () => {
-		new Date('2015-09-22 09:35:12+03:00') / 1000;
+		new Date('2015-09-22 09:35:12+03:00');
 	})
 	.add('Parse           (date-fns)', () => {
-		dateFns.parse('2015-09-22 09:35:12+03:00') / 1000;
+		dateFns.parse('2015-09-22 09:35:12+03:00');
 	})
 	.add('Parse             (moment)', () => {
 		moment('2015-09-22 09:35:12+03:00').unix();
@@ -53,13 +53,13 @@ suite
 		immtz.add(1, 'h');
 	})
 	.add('Convert Ut->Time    (cctz)', () => {
-		cctz.convert(Date.now() / 1000, cctz.tz('America/New_York'));
+		convert(now(), tz('America/New_York'));
 	})
 	.add('Convert Ut->Time  (moment)', () => {
 		moment().tz('America/New_York');
 	})
 	.add('Convert Time->Ut    (cctz)', () => {
-		cctz.convert(new cctz.CivilTime(2017, 2, 16, 14, 4, 0), cctz.tz('UTC'));
+		convert(new CivilTime(2017, 2, 16, 14, 4, 0), tz('UTC'));
 	})
 	.add('Convert Time->Ut  (moment)', () => {
 		moment([2017, 2, 16, 14, 4, 0]).unix();
