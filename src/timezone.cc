@@ -105,15 +105,15 @@ NAN_METHOD(TimeZone::New) {
 	info.GetReturnValue().Set(info.This());
 }
 
-v8::Local<v8::Object> TimeZone::NewInstance() {
+v8::MaybeLocal<v8::Object> TimeZone::NewInstance() {
 	v8::Local<v8::Function> cons = Nan::New(constructor);
-	return Nan::NewInstance(cons).ToLocalChecked();
+	return Nan::NewInstance(cons);
 }
 
-v8::Local<v8::Object> TimeZone::NewInstance(v8::Local<v8::Value> arg) {
+v8::MaybeLocal<v8::Object> TimeZone::NewInstance(v8::Local<v8::Value> arg) {
 	const unsigned argc = 1;
 	v8::Local<v8::Value> argv[argc] = { arg };
 	v8::Local<v8::Function> cons = Nan::New<v8::Function>(constructor);
 
-	return Nan::NewInstance(cons, argc, argv).ToLocalChecked();
+	return Nan::NewInstance(cons, argc, argv);
 }

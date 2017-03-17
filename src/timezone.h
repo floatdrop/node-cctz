@@ -8,8 +8,8 @@
 class TimeZone : public Nan::ObjectWrap {
 public:
 	static NAN_MODULE_INIT(Init);
-	static v8::Local<v8::Object> NewInstance();
-	static v8::Local<v8::Object> NewInstance(v8::Local<v8::Value> arg);
+	static v8::MaybeLocal<v8::Object> NewInstance();
+	static v8::MaybeLocal<v8::Object> NewInstance(v8::Local<v8::Value> arg);
 	static Nan::Persistent<v8::FunctionTemplate> prototype;
 
 	cctz::time_zone value;

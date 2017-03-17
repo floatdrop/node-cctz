@@ -31,7 +31,12 @@ NAN_METHOD(load_time_zone) {
 		return;
 	}
 
-	std::unique_ptr<Nan::Persistent<v8::Object>> persist(new Nan::Persistent<v8::Object>(TimeZone::NewInstance(info[0])));
+	auto tz = TimeZone::NewInstance(info[0]);
+	if (tz.IsEmpty()) {
+		return;
+	}
+
+	std::unique_ptr<Nan::Persistent<v8::Object>> persist(new Nan::Persistent<v8::Object>(tz.ToLocalChecked()));
 	info.GetReturnValue().Set(Nan::New(*persist));
 	time_zone_map[name] = std::move(persist);
 }

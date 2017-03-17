@@ -180,6 +180,11 @@ test('TimeZone has name getter', t => {
 	t.is(new TimeZone('UTC').name, 'UTC');
 });
 
+test('tz shortcut workd', t => {
+	t.throws(() => tz('unknown'), 'Failed to load time zone unknown');
+	t.is(tz('UTC').name, 'UTC');
+});
+
 test('now shortcut works', t => {
 	t.is(now(), Math.floor(Date.now() / 1000));
 });
