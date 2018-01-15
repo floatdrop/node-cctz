@@ -88,7 +88,7 @@ NAN_METHOD(parse) {
 
 NAN_METHOD(format) {
 	if (info.Length() < 2) {
-		Nan::ThrowTypeError("Expected 2 arguments: format, unix timestamp or CilivTime and optional timezone");
+		Nan::ThrowTypeError("Expected 2 arguments: format, unix timestamp or CivilTime and optional timezone");
 		return;
 	}
 
